@@ -1,0 +1,52 @@
+{
+  "name": "zm-tree-org",
+  "version": "0.3.0",
+  "author": "zzh",
+  "private": false,
+  "main": "lib/zm-tree-org.common.js",
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint",
+    "build-lib": "vue-cli-service build --target lib --name zm-tree-org --dest lib src/index.js"
+  },
+  "dependencies": {
+    "@babel/polyfill": "^7.12.1",
+    "bin-ui": "^3.5.15",
+    "core-js": "^3.6.5",
+    "vue": "^2.6.11",
+    "vue-draggable-resizable": "^2.2.0",
+    "vue-router": "^3.4.8"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "~4.5.0",
+    "@vue/cli-plugin-eslint": "~4.5.0",
+    "@vue/cli-service": "~4.5.0",
+    "babel-eslint": "^10.1.0",
+    "eslint": "^6.7.2",
+    "eslint-plugin-vue": "^6.2.2",
+    "node-sass": "^4.14.1",
+    "sass-loader": "^10.0.4",
+    "style-loader": "^2.0.0",
+    "vue-template-compiler": "^2.6.11"
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "plugin:vue/essential",
+      "eslint:recommended"
+    ],
+    "parserOptions": {
+      "parser": "babel-eslint"
+    },
+    "rules": {}
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ]
+}

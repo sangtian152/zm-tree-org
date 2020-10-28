@@ -1,0 +1,14 @@
+{
+  "开发指南": [
+    {
+      "name": "guide",
+      "path": "/guide",
+      "desc": "介绍"
+    },
+    {
+      "name": "test",
+      "path": "/test",
+      "desc": "测试示例"
+    }
+  ]
+}
