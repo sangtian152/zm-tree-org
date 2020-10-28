@@ -3,7 +3,7 @@
     <div class="header-container" flex="main:justify">
       <div class="left" style="width: 480px;" flex="main:justify cross:center">
         <div class="logo-org-tree">
-          <h2>Bin-Tree-Org</h2>
+          <h2>Zm-Tree-Org</h2>
         </div>
       </div>
       <div class="link">

@@ -1,4 +1,5 @@
 const path = require('path')
+
 function resolve (dir) {
   return path.join(__dirname, '..', dir)
 }
@@ -27,6 +28,19 @@ module.exports = {
             .tap(options => {
                 return options
             })
+    },
+    configureWebpack: config => {
+      config.module.rules.push({
+          test: /\.md$/,
+          use: [
+            {
+              loader: 'vue-loader'
+            },
+            {
+              loader: path.resolve(__dirname, './md-loader/index.js')
+            }
+          ]
+        })
     },
     css: {
       requireModuleExtension: true,
