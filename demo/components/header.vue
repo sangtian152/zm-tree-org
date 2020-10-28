@@ -7,7 +7,7 @@
         </div>
       </div>
       <div class="link">
-        <a href="https://github.com/wangbin3162/bin-tree-org" class="github" target="_blank">GitHub</a>
+        <a href="https://gitee.com/sangtian152/zm-tree-org" class="github" target="_blank">Gitee</a>
       </div>
     </div>
   </header>
