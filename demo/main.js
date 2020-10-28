@@ -13,8 +13,8 @@ import MainFooter from './components/footer.vue'
 import SideNav from './components/side-nav.vue'
 //导入通用样式
 import "@/styles/index.scss";
-import BinTreeOrg from "@/index";
-Vue.use(BinTreeOrg)
+import ZmTreeOrg from "@/index";
+Vue.use(ZmTreeOrg)
 
 Vue.component('DemoBlock', DemoBlock)
 Vue.component('MainHeader', MainHeader)
