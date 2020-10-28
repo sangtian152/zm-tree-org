@@ -140,6 +140,7 @@
         }
       },
       zoomWheel(e) {
+        e.preventDefault();
         // 鼠标滚轮缩放
         if (e.deltaY > 0) {
           this.narrowOrgchart();
@@ -216,6 +217,11 @@
 
     &:not(.dragging) {
       transition: all 0.1s;
+    }
+    ::v-deep {
+      .handle {
+        display: none!important;
+      }
     }
   }
   .tree-org {
