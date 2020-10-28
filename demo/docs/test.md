@@ -21,7 +21,8 @@
       </div>
       <br>
       <zm-tree-org
-        :data="data"      
+        :data="data"
+        style="height: 500px"     
         :horizontal="horizontal"      
         :collapsable="collapsable"
         :label-style="style"
@@ -99,26 +100,10 @@
       }, 
       methods:{
           onExpand(e, data) {
-            e.stopPropagation()
-            if ('expand' in data) {
-                data.expand = !data.expand;
-                if (!data.expand && data.children) {
-                  this.collapse(data.children);
-                }
-              } else {
-                this.$set(data, "expand", true);
-              }
+            console.log(e, data)
           },
           onNodeClick(e, data) {
             this.$message(data.label)
-          },
-          collapse(list) {
-            list.forEach(child => {
-              if (child.expand) {
-                child.expand = false;
-              }
-              child.children && this.collapse(child.children);
-            });
           },
           expandChange() {
             this.toggleExpand(this.data, this.expandAll);

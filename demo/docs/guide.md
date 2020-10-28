@@ -1,7 +1,7 @@
 ## 介绍
 
-为实现组织结构图，参考实现了一个简易版组织结构图，组件依赖于[vue-org-tree](https://github.com/hukaibaihu/vue-org-tree)，
-在此基础上将部分源代码进行优化修改，并将labelWidth更改成labelStyle以便暴露给外部全量的修改label样式。并附上使用测试案例和开发文档。
+为实现组织结构图，参考实现了一个简易版组织结构图，组件依赖于[vue-org-tree](https://github.com/hukaibaihu/vue-org-tree)，[vue-draggable-resizable](https://github.com/mauricius/vue-draggable-resizable)，
+在此基础上将部分源代码进行优化修改。支持鼠标拖动改变位置，以及鼠标滚轮缩放。
 
 ## 安装
 
@@ -35,8 +35,4 @@ Vue.use(ZmTreeOrg)
 ### 最新版本
 
 [![NPM version](https://img.shields.io/npm/v/zm-tree-org)](https://www.npmjs.com/package/zm-tree-org)
-
-### 相关链接
-
-[bin-ui](https://wangbin3162.github.io/docs/bin-ui/)
 
