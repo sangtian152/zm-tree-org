@@ -1,6 +1,6 @@
 <template>
   <footer class="footer">
-    MIT Licensed | Copyright © 2019-present bin-tree-org
+    zm-tree-org
   </footer>
 </template>
 

@@ -1,12 +1,12 @@
 ## 介绍
 
-为实现组织结构图，参考实现了一个简易版组织结构图，组件依赖于[vue-org-tree](https://github.com/hukaibaihu/vue-org-tree)，[vue-draggable-resizable](https://github.com/mauricius/vue-draggable-resizable)，
-在此基础上将部分源代码进行优化修改。支持鼠标拖动改变位置，以及鼠标滚轮缩放。
+一个简易版组织架构图，组件依赖于[vue-org-tree](https://github.com/hukaibaihu/vue-org-tree)，
+在此基础上将部分源代码进行优化修改。并且依赖于[vue-draggable-resizable](https://github.com/mauricius/vue-draggable-resizable)，实现鼠标拖动改变位置，以及鼠标滚轮缩放。
 
 ## 安装
 
     
-`@1.0.0` 表示版本号，我们建议锁定版本号来保证代码的稳定性
+`@0.4.0` 表示版本号，建议锁定版本号来保证代码的稳定性
 
 ### npm 安装
 
@@ -18,8 +18,6 @@ npm i zm-tree-org -S
 # or 
 yarn add zm-tree-org
 ```
-
-如果您了解node.js、npm安装，并希望配合webpack使用，请阅读下一节：[快速上手](/#/start)。
 
 ### 引入
 

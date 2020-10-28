@@ -2,7 +2,7 @@
 
 ### 基础用法
 
-可以设置类似的data数据格式来生成树形组织图，并可以通过style精确配置每个节点的样式
+可以设置类似的data数据格式来生成树形组织图，并可以通过style精确配置每个节点的样式或className精确配置每个节点的class名
 
 ::: demo
 ```html
@@ -22,7 +22,7 @@
       <br>
       <zm-tree-org
         :data="data"
-        style="height: 500px"     
+        style="height: 400px"     
         :horizontal="horizontal"      
         :collapsable="collapsable"
         :label-style="style"
@@ -147,5 +147,5 @@
 | 事件名      | 说明    | 返回值      |
 |---------- |-------- |---------- |
 | on-expand | 节点展开事件，注意，展开节点时如监听了label点击事件，则需要阻止冒泡 e.stopPropagation()  | e, data  |
-| on-node-click | 节点展开事件，注意，展开节点时如监听了label点击事件，则需要阻止冒泡 e.stopPropagation()  | e, data  |
+| on-node-click | 节点点击事件  | e, data  |
 
