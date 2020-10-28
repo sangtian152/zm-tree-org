@@ -20,13 +20,14 @@
         </div>
       </div>
       <br>
-      <b-tree-org :data="data"      
-                  :horizontal="horizontal"      
-                  :collapsable="collapsable"
-                  :label-style="style"
-                  @on-expand="onExpand"
-                  @on-node-click="onNodeClick"
-      ></b-tree-org>
+      <zm-tree-org
+        :data="data"      
+        :horizontal="horizontal"      
+        :collapsable="collapsable"
+        :label-style="style"
+        @on-expand="onExpand"
+        @on-node-click="onNodeClick"
+      ></zm-tree-org>
     </div>
 </template>
 <script>

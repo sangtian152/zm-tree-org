@@ -14,9 +14,9 @@
 es6配合使用。并且支持按需引入
 
 ```shell
-npm i bin-tree-org -S
+npm i zm-tree-org -S
 # or 
-yarn add bin-tree-org
+yarn add zm-tree-org
 ```
 
 如果您了解node.js、npm安装，并希望配合webpack使用，请阅读下一节：[快速上手](/#/start)。
@@ -27,14 +27,14 @@ yarn add bin-tree-org
 
 ```javascript
 import Vue from 'vue'
-import BinTreeOrg from 'bin-tree-org'
+import ZmTreeOrg from 'zm-tree-org'
 
-Vue.use(BinTreeOrg)
+Vue.use(ZmTreeOrg)
 ```
 
 ### 最新版本
 
-[![NPM version](https://img.shields.io/npm/v/bin-tree-org.svg)](https://www.npmjs.com/package/bin-tree-org)
+[![NPM version](https://img.shields.io/npm/v/zm-tree-org)](https://www.npmjs.com/package/zm-tree-org)
 
 ### 相关链接
 
