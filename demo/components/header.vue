@@ -1,7 +1,7 @@
 <template>
   <header class="page-header">
     <row class="header-container" type="flex" justify="space-between">
-      <i-col span="6" class="logo-org-tree">
+      <i-col span="10" class="logo-org-tree">
         <h2>Zm-Tree-Org</h2>
       </i-col>
       <i-col span="6" class="link">
