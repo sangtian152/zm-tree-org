@@ -21,5 +21,5 @@ npm run lint
 ```
 ### Document
 ```
-[Document](https://sangtian152.gitee.io/zm-tree-org/).
+See [Document](https://sangtian152.gitee.io/zm-tree-org/).
 ```
