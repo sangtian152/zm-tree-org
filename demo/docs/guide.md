@@ -24,10 +24,11 @@ yarn add zm-tree-org
 在 main.js 中写入以下内容：
 
 ```javascript
-import Vue from 'vue'
-import ZmTreeOrg from 'zm-tree-org'
+import Vue from 'vue';
+import ZmTreeOrg from 'zm-tree-org';
+import "zm-tree-org/lib/zm-tree-org.css";
 
-Vue.use(ZmTreeOrg)
+Vue.use(ZmTreeOrg);
 ```
 
 ### 最新版本
