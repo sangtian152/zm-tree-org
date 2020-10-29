@@ -1,25 +1,29 @@
 # zm-tree-org
 
-## Project setup
+## 介绍
+一个简易版组织架构图，组件依赖于vue-org-tree， 在此基础上将部分源代码进行优化修改。并且依赖于vue-draggable-resizable，实现鼠标拖动改变位置，以及鼠标滚轮缩放。
+
+### 安装
 ```
-npm install
+npm i bin-tree-org -S
+# or 
+yarn add bin-tree-org
 ```
 
-### Compiles and hot-reloads for development
+### 引入
 ```
-npm run serve
+import Vue from 'vue';
+import ZmTreeOrg from 'zm-tree-org';
+import "zm-tree-org/lib/zm-tree-org.css";
+
+Vue.use(ZmTreeOrg);
 ```
 
-### Compiles and minifies for production
-```
-npm run build
-```
+### 最新版本
 
-### Lints and fixes files
-```
-npm run lint
-```
-### Document
+[![NPM version](https://img.shields.io/npm/v/zm-tree-org)](https://www.npmjs.com/package/zm-tree-org)
 
-See [Document](https://sangtian152.gitee.io/zm-tree-org/).
+### 文档
+
+[说明文档](https://sangtian152.gitee.io/zm-tree-org/).
 
