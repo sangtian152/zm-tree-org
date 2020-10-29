@@ -1,18 +1,15 @@
 <template>
   <header class="page-header">
-    <div class="header-container" flex="main:justify">
-      <div class="left" style="width: 480px;" flex="main:justify cross:center">
-        <div class="logo-org-tree">
-          <h2>Zm-Tree-Org</h2>
-        </div>
-      </div>
-      <div class="link">
+    <row class="header-container" type="flex" justify="space-between">
+      <i-col span="6" class="logo-org-tree">
+        <h2>Zm-Tree-Org</h2>
+      </i-col>
+      <i-col span="6" class="link">
         <a href="https://gitee.com/sangtian152/zm-tree-org" class="github" target="_blank">Gitee</a>
-      </div>
-    </div>
+      </i-col>
+    </row>
   </header>
 </template>
-
 <script>
   export default {
     name: 'MainHeader'
@@ -30,7 +27,6 @@
     right: 0;
     width: 100%;
     height: 80px;
-    transition: all .3s;
     z-index: 100;
     .header-container {
       width: 100%;
@@ -46,6 +42,7 @@
       .link {
         padding: 0 20px;
         line-height: 80px;
+        text-align: right;
         a {
           text-decoration: none;
           color: #1989fa;
@@ -56,9 +53,6 @@
           &.github {
             color: #636363;
           }
-        }
-        .bin-dropdown {
-          line-height: 1.5;
         }
       }
     }

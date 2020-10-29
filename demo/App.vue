@@ -8,7 +8,7 @@
                 <main-footer></main-footer>
             </div>
         </div>
-        <b-back-top></b-back-top>
+        <back-top></back-top>
     </div>
 </template>
 
@@ -19,15 +19,6 @@
       return {
         showBackToTop: false,
         componentScrollBar: null
-      }
-    },
-    watch: {
-      '$route.path'() {
-        this.$nextTick(() => {
-          if (this.$route.meta.desc) {
-            this.$util.title(this.$route.meta.desc)
-          }
-        })
       }
     }
   }

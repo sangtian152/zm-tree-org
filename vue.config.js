@@ -27,6 +27,16 @@ module.exports = {
             .loader('babel-loader')
             .tap(options => {
                 return options
+            }),
+        config.module
+        .rule('vue')
+        .use('iview-loader')
+            .loader('iview-loader')
+            .tap(options => {
+              console.log(options)
+                return {
+                  prefix: false
+                }
             })
     },
     configureWebpack: config => {

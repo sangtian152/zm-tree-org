@@ -1,11 +1,9 @@
-import '@babel/polyfill'
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import './assets/styles/color-brewer.css'
 import './assets/styles/index.scss'
-import 'bin-ui/lib/styles/index.css'
-// import 'github-markdown-css/github-markdown.css'
+import 'view-design/dist/styles/iview.css'
 // 文档组件引入
 import DemoBlock from './components/demo-block.vue'
 import MainHeader from './components/header.vue'

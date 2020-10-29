@@ -1,7 +1,6 @@
 <template>
-  <div class="draggable-wrap">
+  <div ref="zm-tree-org" class="zm-tree-org">
     <div
-      id="pdfDom"
       ref="zoom"
       class="zoom-container"
       :style="zoomStyle"
@@ -16,23 +15,45 @@
         @dragging="onDrag"
         @dragstop="onDragStop"
       >
-        <div ref="tree-org" class="tree-org-container">
-          <div class="tree-org" :class="{horizontal, collapsable}">
-            <tree-org-node
-              :data="data"
-              :props="keys"
-              :horizontal="horizontal"
-              :label-style="labelStyle"
-              :collapsable="collapsable"
-              :render-content="renderContent"
-              :label-class-name="labelClassName"
-              @on-expand="handleExpand"
-              @on-node-click="(e, data) => { $emit('on-node-click', e, data)}"
-            />
-          </div>
+        <div ref="tree-org" class="tree-org" :class="{horizontal, collapsable}">
+          <tree-org-node
+            :data="data"
+            :props="keys"
+            :horizontal="horizontal"
+            :label-style="labelStyle"
+            :collapsable="collapsable"
+            :render-content="renderContent"
+            :label-class-name="labelClassName"
+            @on-expand="handleExpand"
+            @on-node-click="(e, data) => { $emit('on-node-click', e, data)}"
+          />
         </div>
       </vue-draggable-resizable>
     </div>
+    <template v-if="tools">
+      <div class="zm-tree-handle">
+        <div v-if="tools.scale" class="zm-tree-percent">{{zoomPercent}}</div>
+        <div v-if="tools.expand" @click="expandChange" :title="expandTitle" class="zm-tree-handle-item">
+          <span class="zm-tree-svg">
+            <img src="@/svg/expand.svg" alt="">
+          </span>
+        </div>
+        <div v-if="tools.zoom" @click="enlargeOrgchart" title="放大" class="zm-tree-handle-item zoom-out">
+          <span class="zm-tree-icon">+</span>
+        </div>
+        <div v-if="tools.zoom" @click="narrowOrgchart" title="缩小" class="zm-tree-handle-item zoom-in">
+          <span class="zm-tree-icon">-</span>
+        </div>
+        <div v-if="tools.restore" @click="restoreOrgchart" title="还原" class="zm-tree-handle-item">
+          <span class="zm-tree-restore"></span>
+        </div>
+        <div v-if="tools.fullscreen" @click="handleFullscreen" :title="fullTiltle" class="zm-tree-handle-item">
+          <span class="zm-tree-svg">
+            <img src="@/svg/fullscreen.svg" alt="">
+          </span>
+        </div>
+      </div>
+    </template>
   </div>
 </template>
 
@@ -59,6 +80,16 @@
           children: 'children'
         })
       },
+      toolBar:{
+        type:[Object, Boolean],
+        default: ()=>({
+          expand: true,
+          scale: true,
+          zoom: true,
+          restore: true,
+          fullscreen: true,
+        })
+      },
       horizontal: Boolean,
       selectedKey: String,
       collapsable: Boolean,
@@ -75,10 +106,19 @@
           expand: 'expand',
           children: 'children'
         },
+        tools:{
+          expand: true,
+          scale: true,
+          zoom: true,
+          restore: true,
+          fullscreen: true,
+        },
         autoDragging: false,
         scale: 1,
-        left: 100,
+        left: 0,
         top: 0,
+        expanded: false,
+        fullscreen: false,
       }
     },
     computed:{
@@ -90,6 +130,15 @@
           transform: `scale(${scale})`,
         };
       },
+      zoomPercent(){
+        return `${Math.round(this.scale * 100)}%`
+      },
+      expandTitle(){
+        return this.expanded ? "收起全部节点" : "展开全部节点";
+      },
+      fullTiltle(){
+        return this.fullscreen ? "退出全屏" : "全屏";
+      }
     },
     watch:{
       horizontal(){
@@ -101,6 +150,11 @@
     },
     created(){
       Object.assign(this.keys, this.props);
+      if(typeof this.toolBar === 'object') {
+        Object.assign(this.tools, this.toolBar);
+      } else if(!this.toolBar){
+        this.tools = false;
+      }
     },
     methods:{
       onDrag(x, y) {
@@ -108,6 +162,7 @@
         this.autoDragging = false;
         this.left = x;
         this.top = y;
+        this.$emit('on-drag', {x, y})
       },
       onDragStop(x, y) {
         // 防止拖拽出边界
@@ -138,6 +193,7 @@
         } else {
           this.top = y;
         }
+        this.$emit('on-drag-stop', {x, y})
       },
       zoomWheel(e) {
         e.preventDefault();
@@ -147,6 +203,7 @@
         } else {
           this.enlargeOrgchart();
         }
+        this.$emit('on-zoom', this.scale)
       },
       enlargeOrgchart() {
         // 鼠标滚轮向上滚动放大
@@ -161,6 +218,11 @@
           let scale = Number(this.scale) - 0.1;
           this.scale = Number(scale).toFixed(1);
         }
+      },
+      restoreOrgchart(){
+        this.scale = 1;
+        this.left = 0;
+        this.top = 0;
       },
       autoDrag(el, left, top) {
         // 计算偏移量，保持根节点相对页面位置不变
@@ -189,6 +251,40 @@
         });
         this.$emit('on-expand', e, data)
       },
+      handleFullscreen(){
+        this.fullscreen = !this.fullscreen;
+        if(this.fullscreen) {
+          this.launchIntoFullscreen();
+        } else {
+          this.exitFullscreen();
+        }
+      },
+      launchIntoFullscreen() {
+        // 全屏
+        const element = this.$refs['zm-tree-org']
+        if(element.requestFullscreen){
+            element.requestFullscreen();
+        }
+        else if(element.mozRequestFullScreen) {
+            element.mozRequestFullScreen();
+        }
+        else if(element.webkitRequestFullscreen) {
+            element.webkitRequestFullscreen();
+        }
+        else if(element.msRequestFullscreen) {
+            element.msRequestFullscreen();
+        }
+      },
+      exitFullscreen() {
+        // 退出全屏
+        if(document.exitFullscreen) {
+            document.exitFullscreen();
+        } else if(document.mozCancelFullScreen) {
+            document.mozCancelFullScreen();
+        } else if(document.webkitExitFullscreen) {
+            document.webkitExitFullscreen();
+        }
+      },
       collapse(list) {
         list.forEach(child => {
           if (child.expand) {
@@ -197,24 +293,39 @@
           child.children && this.collapse(child.children);
         });
       },
+      expandChange() {
+        this.expanded = !this.expanded
+        this.toggleExpand(this.data, this.expanded);
+        if(!this.expanded){
+          this.$nextTick(() => {
+            this.onDragStop(this.left, this.top);
+          });
+        }
+      },
+      toggleExpand(data, val) {
+        if (Array.isArray(data)) {
+          data.forEach(item => {
+            this.$set(item, "expand", val);
+            if (item.children) {
+              this.toggleExpand(item.children, val);
+            }
+          });
+        } else {
+          this.$set(data, "expand", val);
+          if (data.children) {
+            this.toggleExpand(data.children, val);
+          }
+        }
+      }
     }
   }
 </script>
 <style lang="scss" scoped>
-.draggable-wrap {
-  height: 100%;
-  .zoom-container {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    text-align: center;
-    transform-origin: left top;
-  }
+.zm-tree-org {
+  background: #fff;
   .vdr {
     touch-action: none;
     border: none;
-
     &:not(.dragging) {
       transition: all 0.1s;
     }
@@ -222,17 +333,6 @@
       .handle {
         display: none!important;
       }
-    }
-  }
-  .tree-org {
-    & > .tree-org-node {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    &.horizontal > .tree-org-node {
-      flex-direction: row;
     }
   }
 }
