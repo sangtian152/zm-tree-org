@@ -5,9 +5,9 @@
 
 ### 安装
 ```
-npm i bin-tree-org -S
+npm install zm-tree-org --save
 # or 
-yarn add bin-tree-org
+yarn add zm-tree-org
 ```
 
 ### 引入
