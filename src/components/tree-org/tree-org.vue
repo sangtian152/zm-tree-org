@@ -35,7 +35,7 @@
         <div v-if="tools.scale" class="zm-tree-percent">{{zoomPercent}}</div>
         <div v-if="tools.expand" @click="expandChange" :title="expandTitle" class="zm-tree-handle-item">
           <span class="zm-tree-svg">
-            <img src="@/svg/expand.svg" alt="">
+            <img :src="svgUrl.expand" alt="">
           </span>
         </div>
         <div v-if="tools.zoom" @click="enlargeOrgchart" title="放大" class="zm-tree-handle-item zoom-out">
@@ -49,7 +49,7 @@
         </div>
         <div v-if="tools.fullscreen" @click="handleFullscreen" :title="fullTiltle" class="zm-tree-handle-item">
           <span class="zm-tree-svg">
-            <img src="@/svg/fullscreen.svg" alt="">
+            <img :src="svgUrl.fullscreen" alt="">
           </span>
         </div>
       </div>
@@ -58,7 +58,11 @@
 </template>
 
 <script>
-  import render from './node'
+  import render from './node';
+  import fsIcon from "@/svg/fullscreen.svg";
+  import unfsIcon from "@/svg/unfullscreen.svg";
+  import exIcon from "@/svg/expand.svg";
+  import cosIcon from "@/svg/collapse.svg";
   export default {
     name: 'ZmTreeOrg',
     components: {
@@ -138,6 +142,12 @@
       },
       fullTiltle(){
         return this.fullscreen ? "退出全屏" : "全屏";
+      },
+      svgUrl(){
+        return {
+          fullscreen: this.fullscreen ? unfsIcon: fsIcon,
+          expand: this.expanded ? cosIcon : exIcon
+        }
       }
     },
     watch:{

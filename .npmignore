@@ -4,8 +4,7 @@ public/
 demo/
 dist/
 md-loader/
-package-lock.json
-yarn.lock
+.gitee/
 vue.config.js
 postcss.config.js
 babel.config.js

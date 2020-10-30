@@ -284,13 +284,16 @@
     border: 1px solid #ddd;
     cursor: pointer;
     position: relative;
+    background: #fff;
     &:not(:last-child){
       margin-bottom: 6px;
     }
     &.zoom-out {
       margin-bottom: -1px;
-      border-bottom-color: transparent;
       z-index: 2;
+    }
+    &.zoom-in:hover {
+      z-index: 3;
     }
     &:hover {
       color: #2d8cf0;
@@ -311,6 +314,8 @@
       width: 10px;
       height: 10px;
       border: 1px solid #aaa;
+      margin-left: -2px;
+      margin-bottom: -2px;
       &:after {
         content: "";
         display: block;

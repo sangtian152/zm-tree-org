@@ -10,11 +10,11 @@ module.exports = {
     assetsDir: "static",
     // 将entry指向examples
     pages: {
-        index: {
-            entry: 'demo/main.js',
-            template: 'public/index.html',
-            filename: 'index.html'
-        }
+      index: {
+        entry: 'demo/main.js',
+        template: 'public/index.html',
+        filename: 'index.html'
+      }
     },
     // 为packages目录添加babel-loader处理
     chainWebpack: config => {
@@ -64,11 +64,11 @@ module.exports = {
           additionalData(content, loaderContext) {
             const { resourcePath, rootContext } = loaderContext;
             const relativePath = path.relative(rootContext, resourcePath);
-            /*if (
-              relativePath.replace(/\\/g, "/") !== "src/styles/variables.scss"
+            if (
+              relativePath.replace(/\\/g, "/") !== "demo/assets/styles/variables.scss"
             ) {
-              return '@import "~@/styles/variables.scss";' + content;
-            }*/
+              return '@import "demo/assets/styles/variables.scss";' + content;
+            }
             return content;
           },
         },

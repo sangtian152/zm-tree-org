@@ -36,7 +36,7 @@
     position: fixed;
     top: 80px;
     width: 260px;
-    height: calc(100vh - 80px);
+    height: calc(100vh - 216px);
     overflow: hidden;
     padding-top: 20px;
     box-sizing: border-box;

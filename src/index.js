@@ -1,3 +1,5 @@
+// ES6 API兼容处理
+import "@/utils/polyfill"
 // 核心插件
 import corePlugin from './plugin/core'
 // 组件

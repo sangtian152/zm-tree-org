@@ -6,9 +6,9 @@
       "desc": "介绍"
     },
     {
-      "name": "test",
-      "path": "/test",
-      "desc": "测试示例"
+      "name": "demo",
+      "path": "/demo",
+      "desc": "示例"
     }
   ]
 }
