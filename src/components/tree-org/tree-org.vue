@@ -27,11 +27,11 @@
             :collapsable="collapsable"
             :render-content="renderContent"
             :label-class-name="labelClassName"
-            v-nodedrag.l.t
+            v-nodedrag.l.t="nodeDraggable"
             @on-expand="handleExpand"
             @on-node-click="(e, data) => { $emit('on-node-click', e, data)}"
             @on-node-mouseenter="nodeMouseenter"
-            @on-node-mouseleave="(e, data) => $emit('on-node-mouseleave', e, data)"
+            @on-node-mouseleave="nodeMouseleave"
           />
         </div>
       </vue-draggable-resizable>
@@ -61,7 +61,9 @@
         </div>
       </div>
     </template>
-    <clone-org 
+    <clone-org
+      v-if="nodeDraggable"
+      v-show="nodeMoving"
       :data="cloneData" 
       :props="keys"
       :horizontal="horizontal"
@@ -102,6 +104,8 @@
       props: {
         type: Object,
         default: () => ({
+          id: "id",
+          pid: "pid",
           label: 'label',
           expand: 'expand',
           children: 'children'
@@ -125,6 +129,10 @@
         type: Boolean,
         default: false
       },
+      nodeDraggable: { // 节点是否可拖拽
+        type: Boolean,
+        default: false
+      },
       horizontal: Boolean,
       selectedKey: String,
       collapsable: Boolean,
@@ -137,6 +145,8 @@
       return {
         treeData:{},
         keys:{
+          id: "id",
+          pid: "pid",
           label: 'label',
           expand: 'expand',
           children: 'children'
@@ -154,6 +164,7 @@
         top: 0,
         expanded: false,
         fullscreen: false,
+        nodeMoving: false,
         cloneData:{},
       }
     },
@@ -244,8 +255,16 @@
         console.log(e)
       },
       nodeMouseenter(e, data){
-        this.cloneData = data;
+        if (this.nodeMoving) {
+          this.parenNode = data;
+        }
         this.$emit('on-node-mouseenter', e, data)
+      },
+      nodeMouseleave(e, data){
+        if (this.nodeMoving) {
+          this.parenNode = null;
+        }
+        this.$emit('on-node-mouseleave', e, data)
       },
       zoomWheel(e) {
         e.preventDefault();

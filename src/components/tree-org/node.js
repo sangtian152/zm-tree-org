@@ -21,7 +21,6 @@ const isLeaf = (data, prop) => {
 // 创建 node 节点
 export const renderNode = (h, data, context, root) => {
   const { props } = context;
-  const { directives } = context.data;
   const cls = ['tree-org-node']
   const childNodes = []
   const children = data[props.props.children]
@@ -37,15 +36,13 @@ export const renderNode = (h, data, context, root) => {
   if (!props.collapsable || data[props.props.expand]) {
     childNodes.push(renderChildren(h, children, context))
   }
-  let cloneDirs 
-  if(Array.isArray(directives)){
-    cloneDirs = directives.map(item=>{
-      return Object.assign({value: data}, item)
-    })
-  }
   return h('div', {
     'class': cls,
-    'directives': cloneDirs,
+    'key': data[props.props.id],
+    'directives' :[ {
+      name: 'show',
+      value: !data.hidden
+    }]
   }, childNodes)
 }
 
@@ -72,7 +69,7 @@ export const renderLabel = (h, data, context, root) => {
   const { props, listeners } = context
   const label = data[props.props.label]
   const renderContent = props.renderContent
-
+  const { directives } = context.data;
   // event handlers
   const clickHandler = listeners[EVENTS.CLICK]
   const mouseenterHandler = listeners[EVENTS.MOUSEENTER]
@@ -110,8 +107,15 @@ export const renderLabel = (h, data, context, root) => {
   if (root) {
     nodeLabelClass.push('root-tree-org-node-label')
   }
+  let cloneDirs 
+  if(Array.isArray(directives)){
+    cloneDirs = directives.map(item=>{
+      return Object.assign({value: data}, item)
+    })
+  }
   return h('div', {
-    'class': nodeLabelClass
+    'class': nodeLabelClass,
+    'directives': cloneDirs,
   }, [h('div', {
     'class': cls,
     style: data['style'] ? data['style'] : labelStyle,
@@ -139,6 +143,7 @@ export const renderChildren = (h, list, context) => {
 
 export const render = (h, context) => {
   const { props } = context
+  console.log(142)
   return renderNode(h, props.data, context, true)
 }
 
