@@ -1,3 +1,18 @@
+const EVENTS = {
+  CLICK: 'on-node-click',
+  MOUSEENTER: 'on-node-mouseenter',
+  MOUSELEAVE: 'on-node-mouseleave'
+}
+
+function createListener (handler, data) {
+  if (typeof handler === 'function') {
+    return function (e) {
+      if (e.target.className.indexOf('org-tree-node-btn') > -1) return
+
+      handler.apply(null, [e, data])
+    }
+  }
+}
 // 判断是否叶子节点
 const isLeaf = (data, prop) => {
   return !(Array.isArray(data[prop]) && data[prop].length > 0)
@@ -6,6 +21,7 @@ const isLeaf = (data, prop) => {
 // 创建 node 节点
 export const renderNode = (h, data, context, root) => {
   const { props } = context;
+  const { directives } = context.data;
   const cls = ['tree-org-node']
   const childNodes = []
   const children = data[props.props.children]
@@ -21,9 +37,15 @@ export const renderNode = (h, data, context, root) => {
   if (!props.collapsable || data[props.props.expand]) {
     childNodes.push(renderChildren(h, children, context))
   }
-
+  let cloneDirs 
+  if(Array.isArray(directives)){
+    cloneDirs = directives.map(item=>{
+      return Object.assign({value: data}, item)
+    })
+  }
   return h('div', {
-    'class': cls
+    'class': cls,
+    'directives': cloneDirs,
   }, childNodes)
 }
 
@@ -50,7 +72,12 @@ export const renderLabel = (h, data, context, root) => {
   const { props, listeners } = context
   const label = data[props.props.label]
   const renderContent = props.renderContent
-  const clickHandler = listeners['on-node-click']
+
+  // event handlers
+  const clickHandler = listeners[EVENTS.CLICK]
+  const mouseenterHandler = listeners[EVENTS.MOUSEENTER]
+  const mouseleaveHandler = listeners[EVENTS.MOUSELEAVE]
+
   const childNodes = []
   if (typeof renderContent === 'function') {
     let vnode = renderContent(h, data)
@@ -89,7 +116,9 @@ export const renderLabel = (h, data, context, root) => {
     'class': cls,
     style: data['style'] ? data['style'] : labelStyle,
     on: {
-      click: e => clickHandler && clickHandler(e, data)
+      'click': createListener(clickHandler, data),
+      'mouseenter': createListener(mouseenterHandler, data),
+      'mouseleave': createListener(mouseleaveHandler, data)
     }
   }, childNodes)])
 }

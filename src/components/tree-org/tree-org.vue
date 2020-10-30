@@ -14,6 +14,9 @@
         :class="{ dragging: autoDragging }"
         @dragging="onDrag"
         @dragstop="onDragStop"
+        :handles="[]"
+        :draggable="draggable"
+        :drag-cancel="dragCancel"
       >
         <div ref="tree-org" class="tree-org" :class="{horizontal, collapsable}">
           <tree-org-node
@@ -24,11 +27,15 @@
             :collapsable="collapsable"
             :render-content="renderContent"
             :label-class-name="labelClassName"
+            v-nodedrag.l.t
             @on-expand="handleExpand"
             @on-node-click="(e, data) => { $emit('on-node-click', e, data)}"
+            @on-node-mouseenter="nodeMouseenter"
+            @on-node-mouseleave="(e, data) => $emit('on-node-mouseleave', e, data)"
           />
         </div>
       </vue-draggable-resizable>
+      <!-- <div v-nodedrag>11111</div> -->
     </div>
     <template v-if="tools">
       <div class="zm-tree-handle">
@@ -54,11 +61,22 @@
         </div>
       </div>
     </template>
+    <clone-org 
+      :data="cloneData" 
+      :props="keys"
+      :horizontal="horizontal"
+      :label-style="labelStyle"
+      :collapsable="collapsable"
+      :render-content="renderContent"
+      :label-class-name="labelClassName"
+    />
   </div>
 </template>
 
 <script>
   import render from './node';
+  import cloneOrg from "@/components/clone-org"
+  import drag from "@/directives/drag"
   import fsIcon from "@/svg/fullscreen.svg";
   import unfsIcon from "@/svg/unfullscreen.svg";
   import exIcon from "@/svg/expand.svg";
@@ -66,10 +84,15 @@
   export default {
     name: 'ZmTreeOrg',
     components: {
+      cloneOrg,
       TreeOrgNode: {
         render,
         functional: true
       }
+    },
+    directives: {
+      // 自定义指令
+      nodedrag: drag,
     },
     props: {
       data: {
@@ -93,6 +116,14 @@
           restore: true,
           fullscreen: true,
         })
+      },
+      draggable:{ // 是否可拖拽移动位置
+        type: Boolean,
+        default: true
+      },
+      draggableOnNode: { // 是否可拖拽节点移动位置
+        type: Boolean,
+        default: false
       },
       horizontal: Boolean,
       selectedKey: String,
@@ -123,6 +154,7 @@
         top: 0,
         expanded: false,
         fullscreen: false,
+        cloneData:{},
       }
     },
     computed:{
@@ -136,6 +168,9 @@
       },
       zoomPercent(){
         return `${Math.round(this.scale * 100)}%`
+      },
+      dragCancel(){
+        return this.draggableOnNode ? '' : '.tree-org-node-label'
       },
       expandTitle(){
         return this.expanded ? "收起全部节点" : "展开全部节点";
@@ -204,6 +239,13 @@
           this.top = y;
         }
         this.$emit('on-drag-stop', {x, y})
+      },
+      nodeDrag(e){
+        console.log(e)
+      },
+      nodeMouseenter(e, data){
+        this.cloneData = data;
+        this.$emit('on-node-mouseenter', e, data)
       },
       zoomWheel(e) {
         e.preventDefault();
@@ -338,11 +380,6 @@
     border: none;
     &:not(.dragging) {
       transition: all 0.1s;
-    }
-    ::v-deep {
-      .handle {
-        display: none!important;
-      }
     }
   }
 }

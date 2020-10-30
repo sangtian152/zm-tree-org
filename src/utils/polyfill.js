@@ -24,3 +24,13 @@ if (!Object.assign) {
     }
   });
 }
+if(!Array.isArray){
+  Object.defineProperty(Array, "isArray", {
+    enumerable: false,
+    configurable: true,
+    writable: true,
+    value: function(target){
+      return Object.prototype.toString.call(target) == "[object Array]";
+    }
+  })
+}

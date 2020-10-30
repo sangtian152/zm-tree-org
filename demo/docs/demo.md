@@ -11,7 +11,6 @@
       <div style="display: flex; padding: 10px 0;">
         <div style="margin-right: 10px"><i-switch v-model="horizontal"></i-switch> 是否是横向</div>
         <div style="margin-right: 10px"><i-switch v-model="collapsable"></i-switch> 可展开收起</div>
-        <div style="margin-right: 10px"><i-switch v-model="expandAll" @on-change="expandChange"></i-switch> 展开全部</div>
         <div>
           背景色：
           <color-picker v-model="style.background" size="small"></color-picker>&nbsp;
@@ -107,7 +106,7 @@
             console.log(e, data)
           },
           onNodeClick(e, data) {
-            this.$message(data.label)
+            this.$Message.info(data.label)
           },
           expandChange() {
             this.toggleExpand(this.data, this.expandAll);
