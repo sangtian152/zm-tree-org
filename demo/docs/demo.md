@@ -24,6 +24,8 @@
         :horizontal="horizontal"      
         :collapsable="collapsable"
         :label-style="style"
+        :nodeDraggable="true"
+        :node-draging="nodeDragMove"
         @on-expand="onExpand"
         @on-node-click="onNodeClick"
       ></zm-tree-org>
@@ -115,6 +117,9 @@
       methods:{
           onExpand(e, data) {
             console.log(e, data)
+          },
+          nodeDragMove(data){
+            console.log(data)
           },
           onNodeClick(e, data) {
             this.$Message.info(data.label)

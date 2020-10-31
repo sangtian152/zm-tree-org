@@ -110,7 +110,8 @@ export const renderLabel = (h, data, context, root) => {
   let cloneDirs 
   if(Array.isArray(directives)){
     cloneDirs = directives.map(item=>{
-      return Object.assign({value: data}, item)
+      const newValue = Object.assign({node: data}, item.value)
+      return Object.assign({...item}, {value: newValue})
     })
   }
   return h('div', {
@@ -143,7 +144,6 @@ export const renderChildren = (h, list, context) => {
 
 export const render = (h, context) => {
   const { props } = context
-  console.log(142)
   return renderNode(h, props.data, context, true)
 }
 

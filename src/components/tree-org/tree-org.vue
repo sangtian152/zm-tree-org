@@ -27,7 +27,7 @@
             :collapsable="collapsable"
             :render-content="renderContent"
             :label-class-name="labelClassName"
-            v-nodedrag.l.t="nodeDraggable"
+            v-nodedrag.l.t="nodeargs"
             @on-expand="handleExpand"
             @on-node-click="(e, data) => { $emit('on-node-click', e, data)}"
             @on-node-mouseenter="nodeMouseenter"
@@ -133,6 +133,9 @@
         type: Boolean,
         default: false
       },
+      nodeDragStart: Function,
+      nodeDraging: Function,
+      nodeDragEnd: Function,
       horizontal: Boolean,
       selectedKey: String,
       collapsable: Boolean,
@@ -193,6 +196,14 @@
         return {
           fullscreen: this.fullscreen ? unfsIcon: fsIcon,
           expand: this.expanded ? cosIcon : exIcon
+        }
+      },
+      nodeargs(){
+        return {
+          drag: this.nodeDraggable,
+          handleStart: this.nodeDragStart,
+          handleMove: this.nodeDraging,
+          handleEnd: this.nodeDragEnd
         }
       }
     },
