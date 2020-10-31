@@ -24,7 +24,12 @@ const install = function (Vue) {
       if(value) {
         el.focus();
       }
-    }
+    },
+    update(el, { value }){
+      if(value) {
+        el.focus();
+      }
+    },
 	})
 }
 
