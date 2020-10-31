@@ -32,6 +32,9 @@
             @on-node-click="(e, data) => { $emit('on-node-click', e, data)}"
             @on-node-mouseenter="nodeMouseenter"
             @on-node-mouseleave="nodeMouseleave"
+            @on-node-contextmenu="nodeContextmenu"
+            @on-node-focus="(e, data) => { $emit('on-node-focus', e, data)}"
+            @on-node-blur="(e, data) => { $emit('on-node-blur', e, data)}"
           />
         </div>
       </vue-draggable-resizable>
@@ -72,12 +75,23 @@
       :render-content="renderContent"
       :label-class-name="labelClassName"
     />
+    <zm-contextmenu
+      :visible.sync="contextmenu"
+      :node-add="nodeAdd"
+      :node-delete="nodeDelete"
+      :node-edit="nodeEdit"
+      :node="menuData"
+      :data="data"
+      :props="keys"
+      :x="menuX"
+      :y="menuY" />
   </div>
 </template>
 
 <script>
   import render from './node';
   import cloneOrg from "@/components/clone-org"
+  import ZmContextmenu from "@/components/contextmenu"
   import drag from "@/directives/drag"
   import fsIcon from "@/svg/fullscreen.svg";
   import unfsIcon from "@/svg/unfullscreen.svg";
@@ -87,6 +101,7 @@
     name: 'ZmTreeOrg',
     components: {
       cloneOrg,
+      ZmContextmenu,
       TreeOrgNode: {
         render,
         functional: true
@@ -131,7 +146,7 @@
       },
       nodeDraggable: { // 节点是否可拖拽
         type: Boolean,
-        default: false
+        default: true
       },
       nodeDragStart: Function,
       nodeDraging: Function,
@@ -142,7 +157,10 @@
       renderContent: Function,
       labelStyle: Object,
       labelClassName: [Function, String],
-      selectedClassName: [Function, String]
+      selectedClassName: [Function, String],
+      nodeAdd: Function,
+      nodeDelete: Function,
+      nodeEdit: Function,
     },
     data(){
       return {
@@ -169,6 +187,11 @@
         fullscreen: false,
         nodeMoving: false,
         cloneData:{},
+        copyText:"",
+        contextmenu: false,
+        menuData:{},
+        menuX: 0,
+        menuY: 0,
       }
     },
     computed:{
@@ -184,7 +207,7 @@
         return `${Math.round(this.scale * 100)}%`
       },
       dragCancel(){
-        return this.draggableOnNode ? '' : '.tree-org-node-label'
+        return this.draggableOnNode || !this.nodeDraggable ? '' : '.tree-org-node-label'
       },
       expandTitle(){
         return this.expanded ? "收起全部节点" : "展开全部节点";
@@ -276,6 +299,15 @@
           this.parenNode = null;
         }
         this.$emit('on-node-mouseleave', e, data)
+      },
+      nodeContextmenu(e, data){
+        e.stopPropagation();
+        e.preventDefault();
+        this.contextmenu = true;
+        this.menuX = e.clientX;
+        this.menuY = e.clientY;
+        this.menuData = data;
+        
       },
       zoomWheel(e) {
         e.preventDefault();

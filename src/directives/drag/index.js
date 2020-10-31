@@ -1,12 +1,13 @@
  //递归遍历实现
-const getNodeById = function(node, key, value){
-  if (node[key] === value) {
+const getNodeById = function(node, keys, value){
+  const { id, children } = keys;
+  if (node[id] === value) {
     return node;
-  } else if (Array.isArray(node.children)) {
-    let list = node.children;
+  } else if (Array.isArray(node[children])) {
+    let list = node[children];
     for (let i = 0, len = list.length; i < len; i++){
       let row = list[i];
-      let pNode = getNodeById(row, key, value);
+      let pNode = getNodeById(row, id, value);
       if (pNode) {
         return pNode;
       }
@@ -16,9 +17,9 @@ const getNodeById = function(node, key, value){
  //移除节点
 const removeNode = function(node, context){
   const { keys, data } = context;
-  const { id, pid } = keys;
-  const oldPaNode = getNodeById(data, id, node[pid]);
-  const list = oldPaNode.children;
+  const { id, pid, children } = keys;
+  const oldPaNode = getNodeById(data, keys, node[pid]);
+  const list = oldPaNode[children];
   for(let i = 0, len = list.length; i < len; i ++){
     if(list[i][id] === node[id]) {
       list.splice(i, 1)
@@ -30,10 +31,10 @@ const removeNode = function(node, context){
 const addChildNode = function(node, context){
   const { parenNode } = context;
   if( parenNode ){
-    const { keys } = context
+    removeNode(node, context)
+    const { keys } = context;
     node[keys.pid] = parenNode[keys.id];
     parenNode.children ? parenNode.children.push(node) : parenNode.children = [node];
-    removeNode(node, context)
   }
 }
 export default {
@@ -45,16 +46,17 @@ export default {
     let cloneTree = null;
     function handleDownCb(e){
         e.stopPropagation();
-        if(drag === false) {
+        if(drag === false || e.button!=0 || node.focused) {
           return
         }
-        node.hidden = true;
         vnode.context.cloneData = node;
         vnode.context.nodeMoving = true;
         cloneTree = document.querySelector("#clone-tree-org");
         offsetLeft = el.offsetLeft + 2;
         cloneTree.style.opacity = 0.8;
         cloneTree.style.left = e.clientX - offsetLeft + "px";
+        cloneTree.style.top = e.clientY + 2 + "px";
+        node.hidden = true;
         document.addEventListener("mousemove",handleMoveCb);
         document.addEventListener("mouseup",handleUpCb);
         handleEmit("start")
@@ -63,7 +65,6 @@ export default {
         e.preventDefault();
         if(!hasRender) {
           hasRender = true;
-          cloneTree.style.opacity = 0.8;
           let rootNode = cloneTree.querySelector(".root-tree-org-node-label");
           offsetLeft = rootNode.offsetLeft + 2;
         }

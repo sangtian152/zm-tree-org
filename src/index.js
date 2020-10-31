@@ -18,8 +18,14 @@ const install = function (Vue) {
   components.forEach(component => {
     Vue.component(component.name, component)
   })
-
   Vue.use(corePlugin)
+  Vue.directive('focus',{
+    inserted: function(el, { value }){
+      if(value) {
+        el.focus();
+      }
+    }
+	})
 }
 
 /* istanbul ignore if */

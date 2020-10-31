@@ -8,9 +8,6 @@
       :collapsable="collapsable"
       :render-content="renderContent"
       :label-class-name="labelClassName"
-      @on-node-click="(e, data) => { $emit('on-node-click', e, data)}"
-      @on-node-mouseenter="(e, data) => $emit('on-node-mouseenter', e, data)"
-      @on-node-mouseleave="(e, data) => $emit('on-node-mouseleave', e, data)"
     />
   </div>
 </template>
@@ -55,6 +52,12 @@
       }
       this.init = true;
     },
+    destroyed() {
+      // remove DOM node after destroy
+      if (this.$el && this.$el.parentNode) {
+        this.$el.parentNode.removeChild(this.$el);
+      }
+    }
   }
 </script>
 <style lang="scss" scoped>

@@ -26,6 +26,7 @@
         :label-style="style"
         :nodeDraggable="true"
         :node-draging="nodeDragMove"
+        :node-add="handleNodeAdd"
         @on-expand="onExpand"
         @on-node-click="onNodeClick"
       ></zm-tree-org>
@@ -124,6 +125,10 @@
           onNodeClick(e, data) {
             this.$Message.info(data.label)
           },
+          handleNodeAdd(node){
+            console.log(node)
+            this.$Message.info("新增节点")
+          },
           expandChange() {
             this.toggleExpand(this.data, this.expandAll);
           },
@@ -157,10 +162,16 @@
 | toolBar    | 工具栏   | [Object, Boolean] |  —   |  {scale: true, restore: true, expand: true, zoom: true, fullscreen: true,  }  |
 | horizontal     | 是否是横向   | Boolean  | true,false  |  false  |
 | collapsable     | 是否可以展开收起节点   | Boolean  | true,false  |  false  |
+| draggable     | 架构图是否可拖拽   | Boolean  | true,false  |  true  |
+| draggableOnNode     | 架构图拖拽在节点触发，nodeDraggable值为false时，设为true才有效  | Boolean  | true,false  |  false  |
+| nodeDraggable     | 节点是否可拖拽   | Boolean  | true,false  |  true  |
 | renderContent     | 渲染函数   | Function  |  —   |   —   |
 | labelStyle     | 自定义label标签的样式   | Object  |  —   |   —    |
 | labelClassName     | 自定义label节点的样式名   | [Function, String]  |  —   |   —   |
 | selectedClassName  | 自定义选择节点的样式名   | [Function, String]  |  —   |   —   |
+| node-add  | 自定义节点新增，覆盖默认新增行为（参数当前节点node）  | Function   |  —   |   —   |
+| node-delete  | 自定义节点删除，覆盖默认新增行为（参数当前节点node） | Function   |  —   |   —   |
+| node-edit  | 自定义节点编辑，覆盖默认新增行为（参数当前节点node） | Function   |  —   |   —   |
 
 ### Events
 
@@ -171,4 +182,5 @@
 | on-zoom | 缩放事件  | scale缩放倍数  |
 | on-drag | 拖拽事件  | x, y  |
 | on-drag-stop | 拖拽结束事件  | x, y  |
-
+| on-node-focus | 节点获取焦点事件  | e, data  |
+| on-node-blur | 节点失去焦点事件  | e, data  |

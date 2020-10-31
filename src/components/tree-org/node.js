@@ -1,5 +1,6 @@
 const EVENTS = {
   CLICK: 'on-node-click',
+  CONTEXTMENU: 'on-node-contextmenu',
   MOUSEENTER: 'on-node-mouseenter',
   MOUSELEAVE: 'on-node-mouseleave'
 }
@@ -70,10 +71,6 @@ export const renderLabel = (h, data, context, root) => {
   const label = data[props.props.label]
   const renderContent = props.renderContent
   const { directives } = context.data;
-  // event handlers
-  const clickHandler = listeners[EVENTS.CLICK]
-  const mouseenterHandler = listeners[EVENTS.MOUSEENTER]
-  const mouseleaveHandler = listeners[EVENTS.MOUSELEAVE]
 
   const childNodes = []
   if (typeof renderContent === 'function') {
@@ -106,7 +103,10 @@ export const renderLabel = (h, data, context, root) => {
   const nodeLabelClass = ['tree-org-node-label'];
   if (root) {
     nodeLabelClass.push('root-tree-org-node-label')
+  } else if (data.newNode){
+    nodeLabelClass.push('new-tree-org-node-label')
   }
+  // directives
   let cloneDirs 
   if(Array.isArray(directives)){
     cloneDirs = directives.map(item=>{
@@ -114,18 +114,47 @@ export const renderLabel = (h, data, context, root) => {
       return Object.assign({...item}, {value: newValue})
     })
   }
+  // event handlers
+  const NODEEVENTS = {};
+  for (let EKEY in EVENTS){
+    if (Object.prototype.hasOwnProperty.call(EVENTS,EKEY)){
+      const EVENT = EVENTS[EKEY];
+      let handler = listeners[EVENT];
+      if(handler){
+        NODEEVENTS[EKEY.toLowerCase()] = createListener(handler, data);
+      }
+    }
+  }
+  // texterea event handles
+  const focusHandler = listeners['on-node-focus']
+  const blurHandler = listeners['on-node-blur']
   return h('div', {
     'class': nodeLabelClass,
-    'directives': cloneDirs,
+    'directives': root? [] : cloneDirs,
   }, [h('div', {
     'class': cls,
     style: data['style'] ? data['style'] : labelStyle,
+    on: NODEEVENTS
+  }, childNodes), h('textarea', {
+    'class': "tree-org-node-textarea",
+    'directives' :[{
+      name: 'show',
+      value: data.focused
+    }, {
+      name: 'focus',
+      value: data.focused
+    }],
+    "domProps":{
+      placeholder: "请输入节点名称",
+      value: data[props.props.label],
+    },
     on: {
-      'click': createListener(clickHandler, data),
-      'mouseenter': createListener(mouseenterHandler, data),
-      'mouseleave': createListener(mouseleaveHandler, data)
+      focus: e => focusHandler && focusHandler(e, data),
+      input: e => { data[props.props.label] = e.target.value },
+      blur: e => { data.focused = false; blurHandler && blurHandler(e, data)},
+      click: e => e.stopPropagation()
     }
-  }, childNodes)])
+  })])
 }
 
 // 创建 node 子节点
@@ -144,6 +173,7 @@ export const renderChildren = (h, list, context) => {
 
 export const render = (h, context) => {
   const { props } = context
+  props.data.root = true;
   return renderNode(h, props.data, context, true)
 }
 
