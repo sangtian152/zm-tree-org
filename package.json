@@ -1,16 +1,16 @@
 {
   "name": "zm-tree-org",
-  "version": "1.2.5",
+  "version": "1.2.6",
   "author": "zzh",
   "private": false,
   "main": "lib/zm-tree-org.common.js",
-  "homepage": "http://element.eleme.io",
+  "homepage": "https://sangtian152.gitee.io/zm-tree-org",
   "files": [
     "lib"
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://gitee.com/sangtian152/zm-tree-org.git"
+    "url": "https://gitee.com/sangtian152/zm-tree-org.git"
   },
   "keywords": [
     "zm-tree-org",
