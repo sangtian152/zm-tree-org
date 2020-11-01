@@ -67,8 +67,8 @@
     <clone-org
       v-if="nodeDraggable"
       v-show="nodeMoving"
-      :data="cloneData" 
       :props="keys"
+      :data="cloneData" 
       :horizontal="horizontal"
       :label-style="labelStyle"
       :collapsable="collapsable"

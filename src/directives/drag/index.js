@@ -1,4 +1,25 @@
- //递归遍历实现
+import { isObject } from "@/utils/utils"
+// 递归遍历处理数据
+const recurseData = function(data, keys, cb){
+  const { children } = keys;
+  if (isObject(data)) {
+    fn(data)
+  } else if (Array.isArray(data)){
+    for (let i = 0, len = data.length; i < len; i++){
+      fn(data[i]);
+    }
+  }
+  function fn(obj) {
+    cb(obj)
+    if(Array.isArray(obj[children])){
+    const list = obj[children];
+      for (let i = 0, len = list.length; i < len; i++){
+        fn(list[i]);
+      }
+    }
+  }
+}
+ // 获取父级节点
 const getNodeById = function(node, keys, value){
   const { id, children } = keys;
   if (node[id] === value) {
@@ -43,14 +64,22 @@ const addChildNode = function(node, context){
   const { parenNode, onlyOneNode, cloneNodeDrag } = context;
   if( parenNode ){
     const { keys } = context;
+    const { id, pid } = keys;
+    delete node.root
     if (!cloneNodeDrag) {
       // 如果拖拽节点
       removeNode(node, context)
-      node[keys.pid] = parenNode[keys.id];
+      node[pid] = parenNode[id];
       parenNode.children ? parenNode.children.push(node) : parenNode.children = [node];
     } else {
       // 如果拷贝并拖拽节点
       const nodeClone = JSON.parse(JSON.stringify(node));
+      recurseData(nodeClone, keys, function(item){
+        if(typeof item[id] === "string"
+          && item[id].indexOf("clone-node") != -1){
+          item[id] = `clone-node-${item[id]}`
+        }
+      })
       const { children } = keys;
       if (onlyOneNode && Array.isArray(nodeClone[children])){
         nodeClone[children] = [];
@@ -69,7 +98,6 @@ export default {
     let cloneTree = null;
     function handleDownCb(e){
         e.stopPropagation();
-        console.log(e.target.className, )
         if( drag === false 
           || e.button!=0 
           || node.focused 
