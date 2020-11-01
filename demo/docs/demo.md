@@ -11,8 +11,9 @@
       <div style="display: flex; padding: 10px 0;">
         <div style="margin-right: 10px"><i-switch v-model="horizontal"></i-switch> 横向</div>
         <div style="margin-right: 10px"><i-switch v-model="collapsable"></i-switch> 可收起</div>
+        <div style="margin-right: 10px"><i-switch v-model="disaled"></i-switch> 禁止编辑</div>
         <div style="margin-right: 10px"><i-switch v-model="onlyOneNode"></i-switch> 仅拖动当前节点</div>
-        <div style="margin-right: 10px"><i-switch v-model="cloneNodeDrag"></i-switch> 拖动拷贝节点</div>
+        <div style="margin-right: 10px"><i-switch v-model="cloneNodeDrag"></i-switch> 拖动节点f副本</div>
     </div>
     <div>
       背景色：
@@ -27,6 +28,7 @@
         :collapsable="collapsable"
         :label-style="style"
         :node-draggable="true"
+        :disabled="true"
         :only-one-node="onlyOneNode"
         :clone-node-drag="cloneNodeDrag"
         :node-draging="nodeDragMove"
@@ -54,7 +56,8 @@
                   {
                     id: 5,
                     pid: 2,
-                    label: "研发-前端"
+                    label: "禁止编辑节点",
+                    disabled: true,
                   },
                   {
                     id: 6,
@@ -64,7 +67,8 @@
                   {
                     id: 9,
                     pid: 2,
-                    label: "UI设计"
+                    label: "禁止拖拽节点",
+                    noDragging: true
                   },
                   {
                     id: 10,
@@ -112,6 +116,7 @@
           onlyOneNode: true,
           cloneNodeDrag: true,
           expandAll: true,
+          disaled: false,
           style: {
             background:'#fff',
             color:'#5e6d82'
@@ -172,7 +177,8 @@
 | toolBar    | 工具栏   | [Object, Boolean] |  —   |  {scale: true, restore: true, expand: true, zoom: true, fullscreen: true,  }  |
 | horizontal     | 是否是横向   | Boolean  | true,false  |  false  |
 | collapsable     | 是否可以展开收起节点   | Boolean  | true,false  |  false  |
-| draggable     | 架构图是否可拖拽   | Boolean  | true,false  |  true  |
+| disabled     | 禁止编辑，设为true后，所有节点不可新增下级、编辑和删除，单个节点禁止编辑，可将节点属性设置disabled为true   | Boolean  | true,false  |  true  |
+| draggable     | 架构图是否可拖拽，单个节点禁止拖拽，可将节点属性设置noDragging为true   | Boolean  | true,false  |  true  |
 | draggableOnNode     | 架构图拖拽在节点触发，nodeDraggable值为false时，设为true才有效  | Boolean  | true,false  |  false  |
 | nodeDraggable     | 节点是否可拖拽   | Boolean  | true,false  |  true  |
 | cloneNodeDrag     | 是否拷贝节点拖拽   | Boolean  | true,false  |  true  |

@@ -101,6 +101,7 @@ export default {
         if( drag === false 
           || e.button!=0 
           || node.focused 
+          || node.noDragging
           || e.target.className.indexOf('tree-org-node-btn') > -1) {
           return false
         }

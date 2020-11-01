@@ -80,6 +80,7 @@
       :node-add="nodeAdd"
       :node-delete="nodeDelete"
       :node-edit="nodeEdit"
+      :disabled="disabled"
       :node="menuData"
       :data="data"
       :props="keys"
@@ -135,6 +136,10 @@
           restore: true,
           fullscreen: true,
         })
+      },
+      disabled:{ // 是否禁用编辑
+        type: Boolean,
+        default: false
       },
       draggable:{ // 是否可拖拽移动位置
         type: Boolean,

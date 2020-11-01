@@ -10,9 +10,11 @@
 			class="zm-tree-contextmenu">
 			<ul>
 				<li class="zm-tree-menu-item" action="copy">复制文本</li>
-				<li class="zm-tree-menu-item" action="add">新增节点</li>
-				<li class="zm-tree-menu-item" action="edit">编辑节点</li>
-				<li class="zm-tree-menu-item" action="delete">删除节点</li>
+				<template v-if="editable">
+					<li class="zm-tree-menu-item" action="add">新增节点</li>
+					<li class="zm-tree-menu-item" action="edit">编辑节点</li>
+					<li class="zm-tree-menu-item" action="delete">删除节点</li>
+				</template>
 			</ul>
 			<textarea class="copy-textarea" ref="copy" v-model="copyText"></textarea>
 		</div>
@@ -49,6 +51,7 @@
       nodeAdd: Function,
       nodeDelete: Function,
       nodeEdit: Function,
+      disabled: Boolean,
 		},
 		data(){
       return {
@@ -63,6 +66,9 @@
 					left: `${this.x}px`,
 					top: `${this.y}px`,
 				}
+			},
+			editable(){
+				return !this.disabled && !this.node.disabled;
 			}
 		},
 		mounted(){
@@ -140,7 +146,7 @@
           this.$refs.copy.select(); // 选中文本
           document.execCommand("copy"); // 执行浏览器复制命令
           this.$emit("on-node-copy", this.copyText)
-          this.$log.pretty('[提示] ', '文本复制成功', 'danger')
+          this.$log.pretty('[提示] ', '文本复制成功', 'success')
         })
 			},
 			handleAdd(){
