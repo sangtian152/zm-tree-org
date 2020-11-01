@@ -69,8 +69,12 @@ export default {
     let cloneTree = null;
     function handleDownCb(e){
         e.stopPropagation();
-        if(drag === false || e.button!=0 || node.focused) {
-          return
+        console.log(e.target.className, )
+        if( drag === false 
+          || e.button!=0 
+          || node.focused 
+          || e.target.className.indexOf('tree-org-node-btn') > -1) {
+          return false
         }
         const { context } = vnode;
         const { keys, onlyOneNode } = context;

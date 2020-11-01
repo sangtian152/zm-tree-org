@@ -9,14 +9,16 @@
 <template>
     <div>
       <div style="display: flex; padding: 10px 0;">
-        <div style="margin-right: 10px"><i-switch v-model="horizontal"></i-switch> 是否是横向</div>
-        <div style="margin-right: 10px"><i-switch v-model="collapsable"></i-switch> 可展开收起</div>
-        <div>
-          背景色：
-          <color-picker v-model="style.background" size="small"></color-picker>&nbsp;
-          文字颜色：
-          <color-picker v-model="style.color" size="small"></color-picker>&nbsp;
-        </div>
+        <div style="margin-right: 10px"><i-switch v-model="horizontal"></i-switch> 横向</div>
+        <div style="margin-right: 10px"><i-switch v-model="collapsable"></i-switch> 可收起</div>
+        <div style="margin-right: 10px"><i-switch v-model="onlyOneNode"></i-switch> 仅拖动当前节点</div>
+        <div style="margin-right: 10px"><i-switch v-model="cloneNodeDrag"></i-switch> 拖动拷贝节点</div>
+    </div>
+    <div>
+      背景色：
+      <color-picker v-model="style.background" size="small"></color-picker>&nbsp;
+      文字颜色：
+      <color-picker v-model="style.color" size="small"></color-picker>&nbsp;
     </div>
     <div style="height: 400px; border:1px solid #eee">
       <zm-tree-org
@@ -25,6 +27,8 @@
         :collapsable="collapsable"
         :label-style="style"
         :node-draggable="true"
+        :only-one-node="onlyOneNode"
+        :clone-node-drag="cloneNodeDrag"
         :node-draging="nodeDragMove"
         :node-drag-end="nodeDragEnd"
         @on-expand="onExpand"
@@ -105,6 +109,8 @@
           },
           horizontal: false,
           collapsable: true,
+          onlyOneNode: true,
+          cloneNodeDrag: true,
           expandAll: true,
           style: {
             background:'#fff',
