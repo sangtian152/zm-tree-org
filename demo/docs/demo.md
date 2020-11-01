@@ -24,9 +24,9 @@
         :horizontal="horizontal"      
         :collapsable="collapsable"
         :label-style="style"
-        :nodeDraggable="true"
+        :node-draggable="true"
         :node-draging="nodeDragMove"
-        :node-add="handleNodeAdd"
+        :node-drag-end="nodeDragEnd"
         @on-expand="onExpand"
         @on-node-click="onNodeClick"
       ></zm-tree-org>
@@ -122,6 +122,10 @@
           nodeDragMove(data){
             console.log(data)
           },
+          nodeDragEnd(data, isSelf){
+            console.log(data, isSelf)
+            isSelf && this.$Message.info("移动到自身")
+          },
           onNodeClick(e, data) {
             this.$Message.info(data.label)
           },
@@ -165,6 +169,8 @@
 | draggable     | 架构图是否可拖拽   | Boolean  | true,false  |  true  |
 | draggableOnNode     | 架构图拖拽在节点触发，nodeDraggable值为false时，设为true才有效  | Boolean  | true,false  |  false  |
 | nodeDraggable     | 节点是否可拖拽   | Boolean  | true,false  |  true  |
+| cloneNodeDrag     | 是否拷贝节点拖拽   | Boolean  | true,false  |  true  |
+| onlyOneNode     | 是否仅拖动当前节点，如果true，仅拖动当前节点，子节点自动添加到当前节点父节点，如果false，则当前节点及子节点一起拖动   | Boolean  | true,false  |  true  |
 | renderContent     | 渲染函数   | Function  |  —   |   —   |
 | labelStyle     | 自定义label标签的样式   | Object  |  —   |   —    |
 | labelClassName     | 自定义label节点的样式名   | [Function, String]  |  —   |   —   |
@@ -179,8 +185,8 @@
 |---------- |-------- |---------- |
 | on-expand | 节点展开事件，注意，展开节点时如监听了label点击事件，则需要阻止冒泡 e.stopPropagation()  | e, data  |
 | on-node-click | 节点点击事件  | e, data  |
+| on-node-focus | 节点获取焦点事件  | e, data  |
+| on-node-blur | 节点失去焦点事件  | e, data  |
 | on-zoom | 缩放事件  | scale缩放倍数  |
 | on-drag | 拖拽事件  | x, y  |
 | on-drag-stop | 拖拽结束事件  | x, y  |
-| on-node-focus | 节点获取焦点事件  | e, data  |
-| on-node-blur | 节点失去焦点事件  | e, data  |

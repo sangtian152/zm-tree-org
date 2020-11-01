@@ -7,7 +7,7 @@ const getNodeById = function(node, keys, value){
     let list = node[children];
     for (let i = 0, len = list.length; i < len; i++){
       let row = list[i];
-      let pNode = getNodeById(row, id, value);
+      let pNode = getNodeById(row, keys, value);
       if (pNode) {
         return pNode;
       }
@@ -16,25 +16,48 @@ const getNodeById = function(node, keys, value){
 }
  //移除节点
 const removeNode = function(node, context){
-  const { keys, data } = context;
+  const { keys, data, onlyOneNode } = context;
   const { id, pid, children } = keys;
   const oldPaNode = getNodeById(data, keys, node[pid]);
   const list = oldPaNode[children];
+  let index;
   for(let i = 0, len = list.length; i < len; i ++){
     if(list[i][id] === node[id]) {
       list.splice(i, 1)
+      index = i;
       break;
     }
+  }
+  // 如果仅移动当前节点，把当前节点的子节点添加到当前节点的父节点，并把当前节点子节点移除
+  const childNodes = node[children];
+  if (onlyOneNode && index && childNodes) {
+    node[children] = [];
+    childNodes.forEach(it => {
+      it[pid] = oldPaNode[id];
+    })
+    oldPaNode[children].splice(index, 0, ...childNodes)
   }
 }
  //新增子节点节点
 const addChildNode = function(node, context){
-  const { parenNode } = context;
+  const { parenNode, onlyOneNode, cloneNodeDrag } = context;
   if( parenNode ){
-    removeNode(node, context)
     const { keys } = context;
-    node[keys.pid] = parenNode[keys.id];
-    parenNode.children ? parenNode.children.push(node) : parenNode.children = [node];
+    if (!cloneNodeDrag) {
+      // 如果拖拽节点
+      removeNode(node, context)
+      node[keys.pid] = parenNode[keys.id];
+      parenNode.children ? parenNode.children.push(node) : parenNode.children = [node];
+    } else {
+      // 如果拷贝并拖拽节点
+      const nodeClone = JSON.parse(JSON.stringify(node));
+      const { children } = keys;
+      if (onlyOneNode && Array.isArray(nodeClone[children])){
+        nodeClone[children] = [];
+      }
+      nodeClone[keys.pid] = parenNode[keys.id];
+      parenNode.children ? parenNode.children.push(nodeClone) : parenNode.children = [nodeClone];
+    }
   }
 }
 export default {
@@ -49,14 +72,24 @@ export default {
         if(drag === false || e.button!=0 || node.focused) {
           return
         }
-        vnode.context.cloneData = node;
-        vnode.context.nodeMoving = true;
+        const { context } = vnode;
+        const { keys, onlyOneNode } = context;
+        if (onlyOneNode) { // 如果是仅移动当前节点
+          const { children } = keys;
+          const cloneNode = {...node};
+          cloneNode[children] = [];
+          context.cloneData = cloneNode;
+        } else {
+          context.cloneData = node;
+        }
+        context.nodeMoving = true;
+        // 拖动节点副本
         cloneTree = document.querySelector("#clone-tree-org");
         offsetLeft = el.offsetLeft + 2;
         cloneTree.style.opacity = 0.8;
         cloneTree.style.left = e.clientX - offsetLeft + "px";
         cloneTree.style.top = e.clientY + 2 + "px";
-        node.hidden = true;
+        node.moving = true;
         document.addEventListener("mousemove",handleMoveCb);
         document.addEventListener("mouseup",handleUpCb);
         handleEmit("start")
@@ -87,16 +120,21 @@ export default {
         }
         
     }
-    function handleUpCb(){
+    function handleUpCb(e){
         cloneTree = null;
-        node.hidden = false;
+        node.moving = false;
         vnode.context.nodeMoving = false;
         document.removeEventListener("mousemove",handleMoveCb);
         document.removeEventListener("mouseup",handleUpCb);
+        const movingNode = document.querySelector(".tree-org-node-moving");
+        if (movingNode.contains(e.target)) {
+          handleEmit("end", true)
+          return false;
+        }
         addChildNode(node, vnode.context)
-        handleEmit("end")
+        handleEmit("end", false)
     }
-    function handleEmit(type){
+    function handleEmit(type, isSelf){
       if(type === "start") {
         typeof handleStart === "function" && handleStart(node);
         return
@@ -106,7 +144,7 @@ export default {
         return
       }
       if(type === "end") {
-        typeof handleEnd === "function" && handleEnd(node);
+        typeof handleEnd === "function" && handleEnd(node, isSelf);
         return
       }
     }

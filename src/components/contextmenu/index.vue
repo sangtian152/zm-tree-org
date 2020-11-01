@@ -151,6 +151,7 @@
 				const { id, pid, label, expand, children } = this.props;
 				const { node } = this
 				const json = {
+					[id]: "",
 					[pid]: node[id],
 					[label]: "",
 					[expand]: false,

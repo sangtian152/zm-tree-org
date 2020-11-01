@@ -31,6 +31,9 @@ export const renderNode = (h, data, context, root) => {
   } else if (props.collapsable && !data[props.props.expand]) { // 追加是否展开class
     cls.push('collapsed')
   }
+  if(data.moving) {
+    cls.push('tree-org-node-moving')
+  }
   // 渲染label块
   childNodes.push(renderLabel(h, data, context, root))
 

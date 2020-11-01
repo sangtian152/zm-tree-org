@@ -34,7 +34,7 @@
             @on-node-mouseleave="nodeMouseleave"
             @on-node-contextmenu="nodeContextmenu"
             @on-node-focus="(e, data) => { $emit('on-node-focus', e, data)}"
-            @on-node-blur="(e, data) => { $emit('on-node-blur', e, data)}"
+            @on-node-blur="handleBlur"
           />
         </div>
       </vue-draggable-resizable>
@@ -145,6 +145,14 @@
         default: false
       },
       nodeDraggable: { // 节点是否可拖拽
+        type: Boolean,
+        default: true
+      },
+      cloneNodeDrag: { // 拷贝并拖拽节点
+        type: Boolean,
+        default: true
+      },
+      onlyOneNode: { // 是否仅拖动当前节点
         type: Boolean,
         default: true
       },
@@ -364,6 +372,19 @@
           this.autoDrag(el, left, top);
         });
         this.$emit('on-expand', e, data)
+      },
+      handleBlur(e, data){
+        console.log(this.menuData)
+        const { children, id, label } = this.keys;
+        const childNodes = this.menuData[children];
+        for (let i = childNodes.length; i > 0; i--){
+          let item = childNodes[i - 1]
+          if (item[id] == "" && item[label]==""){
+            childNodes.splice(i - 1, 1)
+            break;
+          }
+        }
+        this.$emit('on-node-blur', e, data)
       },
       handleFullscreen(){
         this.fullscreen = !this.fullscreen;
