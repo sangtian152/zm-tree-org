@@ -28,7 +28,7 @@
         :collapsable="collapsable"
         :label-style="style"
         :node-draggable="true"
-        :disabled="true"
+        :disabled="disaled"
         :only-one-node="onlyOneNode"
         :clone-node-drag="cloneNodeDrag"
         :node-draging="nodeDragMove"

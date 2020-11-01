@@ -47,7 +47,9 @@
       }
     },
     mounted(){
-      if(this.init){
+      console.log('mounted', 1)
+      if(!this.init){
+        console.log('mounted')
         document.body.appendChild(this.$el);
       }
       this.init = true;

@@ -96,76 +96,92 @@ export default {
     el.addEventListener("mousedown", handleDownCb)
     let offsetLeft, hasRender;
     let cloneTree = null;
+    let screenX = 0, screenY = 0;
+    function initData(e){ // 初始化拖动数据
+      screenX = e.screenX;
+      screenY = e.screenY;
+      const { context } = vnode;
+      context.contextmenu = false; // 隐藏右键菜单
+      const { keys, onlyOneNode } = context;
+      if (onlyOneNode) { // 如果是仅移动当前节点
+        const { children } = keys;
+        const cloneNode = {...node};
+        cloneNode[children] = [];
+        context.cloneData = cloneNode;
+      } else {
+        context.cloneData = node;
+      }
+    }
     function handleDownCb(e){
-        e.stopPropagation();
-        if( drag === false 
-          || e.button!=0 
-          || node.focused 
-          || node.noDragging
-          || e.target.className.indexOf('tree-org-node-btn') > -1) {
-          return false
-        }
-        const { context } = vnode;
-        const { keys, onlyOneNode } = context;
-        if (onlyOneNode) { // 如果是仅移动当前节点
-          const { children } = keys;
-          const cloneNode = {...node};
-          cloneNode[children] = [];
-          context.cloneData = cloneNode;
-        } else {
-          context.cloneData = node;
-        }
-        context.nodeMoving = true;
-        // 拖动节点副本
-        cloneTree = document.querySelector("#clone-tree-org");
-        offsetLeft = el.offsetLeft + 2;
-        cloneTree.style.opacity = 0.8;
-        cloneTree.style.left = e.clientX - offsetLeft + "px";
-        cloneTree.style.top = e.clientY + 2 + "px";
-        node.moving = true;
-        document.addEventListener("mousemove",handleMoveCb);
-        document.addEventListener("mouseup",handleUpCb);
-        handleEmit("start")
+      e.stopPropagation();
+      if( drag === false 
+        || e.button!=0 
+        || node.focused 
+        || node.noDragging
+        || e.target.className.indexOf('tree-org-node-btn') > -1) {
+        return false
+      }
+      initData(e);
+      document.addEventListener("mousemove",handleMoveCb);
+      document.addEventListener("mouseup", handleUpCb);
+      handleEmit("start")
+    }
+    function moveStart(e){
+      const { context } = vnode;
+      context.nodeMoving = true;
+      node.moving = true;
+      // 拖动节点副本
+      offsetLeft = el.offsetLeft + 2;
+      cloneTree = document.querySelector("#clone-tree-org");
+      cloneTree.style.opacity = 0.8;
+      cloneTree.style.left = e.clientX - offsetLeft + "px";
+      cloneTree.style.top = e.clientY + 2 + "px";
     }
     function handleMoveCb(e){
-        e.preventDefault();
-        if(!hasRender) {
-          hasRender = true;
-          let rootNode = cloneTree.querySelector(".root-tree-org-node-label");
-          offsetLeft = rootNode.offsetLeft + 2;
-        }
-        if((l&&t) && value){
-            cloneTree.style.left = e.clientX - offsetLeft + "px";
-            cloneTree.style.top = e.clientY + 2 + "px";
-            handleEmit("move")
-          return;
-        }
+      e.preventDefault();
+      if (Math.abs(e.screenX - screenX) < 5
+        && Math.abs(e.screenY - screenY) < 5){
+        return false
+      }
+      if(!hasRender) {
+        hasRender = true;
+        moveStart(e)
+      }
+      if((l&&t) && value){
+          cloneTree.style.left = e.clientX - offsetLeft + "px";
+          cloneTree.style.top = e.clientY + 2 + "px";
+          handleEmit("move")
+        return;
+      }
 
-        if(l&&value){
-            el.style.left = e.clientX - offsetLeft+"px";
-            handleEmit("move")
-            return;
-        }
-        if(t&&value){
-            el.style.top = e.clientY+"px";
-            handleEmit("move")
-            return;
-        }
-        
+      if(l&&value){
+          el.style.left = e.clientX - offsetLeft+"px";
+          handleEmit("move")
+          return;
+      }
+      if(t&&value){
+          el.style.top = e.clientY+"px";
+          handleEmit("move")
+          return;
+      }
     }
     function handleUpCb(e){
-        cloneTree = null;
-        node.moving = false;
-        vnode.context.nodeMoving = false;
-        document.removeEventListener("mousemove",handleMoveCb);
-        document.removeEventListener("mouseup",handleUpCb);
-        const movingNode = document.querySelector(".tree-org-node-moving");
-        if (movingNode.contains(e.target)) {
-          handleEmit("end", true)
-          return false;
-        }
-        addChildNode(node, vnode.context)
-        handleEmit("end", false)
+      document.removeEventListener("mousemove",handleMoveCb);
+      document.removeEventListener("mouseup",handleUpCb);
+      if (!hasRender) {
+        return
+      }
+      hasRender = false;
+      cloneTree = null;
+      node.moving = false;
+      vnode.context.nodeMoving = false;
+      const movingNode = document.querySelector(".tree-org-node-moving");
+      if (movingNode.contains(e.target)) {
+        handleEmit("end", true)
+        return false;
+      }
+      addChildNode(node, vnode.context)
+      handleEmit("end", false)
     }
     function handleEmit(type, isSelf){
       if(type === "start") {
