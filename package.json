@@ -1,9 +1,24 @@
 {
   "name": "zm-tree-org",
-  "version": "1.2.4",
+  "version": "1.2.5",
   "author": "zzh",
   "private": false,
   "main": "lib/zm-tree-org.common.js",
+  "homepage": "http://element.eleme.io",
+  "files": [
+    "lib"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://gitee.com/sangtian152/zm-tree-org.git"
+  },
+  "keywords": [
+    "zm-tree-org",
+    "orgchart",
+    "vue",
+    "tree-org",
+    "components"
+  ],
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
