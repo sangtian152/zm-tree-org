@@ -1,8 +1,8 @@
 # zm-tree-org
 
 #### Description
-A simplified organization chart with components dependent on [Vue org tree]（ https://github.com/hukaibaihu/vue-org-tree ).
-On this basis, part of the source code is optimized and modified. And it depends on [Vue draggable recoverable]（ https://github.com/mauricius/vue-draggable-resizable ）To achieve the mouse drag to change the chart's position, and increase the mouse wheel zoom, node drag, and node editing and other functions
+A simplified organization chart with components dependent on [Vue org tree](https://github.com/hukaibaihu/vue-org-tree).
+On this basis, part of the source code is optimized and modified. And it depends on [Vue draggable recoverable](https://github.com/mauricius/vue-draggable-resizable) to achieve the mouse drag to change the chart's position, and increase the mouse wheel zoom, node drag, and node editing and other functions
 
 #### Installation
 
