@@ -3,8 +3,13 @@
 ### 基础用法
 
 可以设置类似的data数据格式来生成树形组织图，并可以通过style精确配置每个节点的样式或className精确配置每个节点的class名
-注：1.如果需要拖动节点，或新增、编辑和删除节点功能，则节点必须有id（节点唯一标识）和pid（父级节点唯一标识）属性，或者通过props指定id和pid属性
+```
+注：
+1.如果需要拖动节点，或新增、编辑和删除节点功能，则节点必须有id（节点唯一标识）和pid（父级节点唯一标识）属性
+或者通过props指定id和pid属性
 2.由于节点拖拽功能阻止了节点文本选中，所以，在右键菜单中提供了复制节点文本功能。
+```
+<br />
 
 ::: demo
 ```html
@@ -17,7 +22,7 @@
         <div style="margin-right: 10px"><i-switch v-model="onlyOneNode"></i-switch> 仅拖动当前节点</div>
         <div style="margin-right: 10px"><i-switch v-model="cloneNodeDrag"></i-switch> 拖动节点副本</div>
     </div>
-    <div>
+    <div style="padding-bottom:10px">
       背景色：
       <color-picker v-model="style.background" size="small"></color-picker>&nbsp;
       文字颜色：
