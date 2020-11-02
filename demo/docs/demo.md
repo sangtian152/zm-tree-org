@@ -3,7 +3,8 @@
 ### 基础用法
 
 可以设置类似的data数据格式来生成树形组织图，并可以通过style精确配置每个节点的样式或className精确配置每个节点的class名
-注：由于节点拖拽功能阻止了节点文本选中，所以，在右键菜单中提供了复制节点文本功能。
+注：1.如果需要拖动节点，或新增、编辑和删除节点功能，则节点必须有id（节点唯一标识）和pid（父级节点唯一标识）属性，或者通过props指定id和pid属性
+2.由于节点拖拽功能阻止了节点文本选中，所以，在右键菜单中提供了复制节点文本功能。
 
 ::: demo
 ```html
@@ -25,11 +26,11 @@
     <div style="height: 400px; border:1px solid #eee">
       <zm-tree-org
         :data="data"
+        :disabled="disaled"
         :horizontal="horizontal"      
         :collapsable="collapsable"
         :label-style="style"
         :node-draggable="true"
-        :disabled="disaled"
         :only-one-node="onlyOneNode"
         :clone-node-drag="cloneNodeDrag"
         :node-draging="nodeDragMove"
@@ -178,24 +179,24 @@
 | 参数      | 说明    | 类型      | 可选值       | 默认值   |
 |---------- |-------- |---------- |-------------  |-------- |
 | data     | 数据源,必须传入   | []  |  —   |   —   |
-| props    | 结构map参考   | Object  |  —   |  {label: 'label', expand: 'expand',children: 'children'  }  |
+| props    | 结构map参考   | Object  |  —   |  {id: 'id', pid: 'pid', label: 'label', expand: 'expand',children: 'children'  }  |
 | toolBar    | 工具栏   | [Object, Boolean] |  —   |  {scale: true, restore: true, expand: true, zoom: true, fullscreen: true,  }  |
 | horizontal     | 是否是横向   | Boolean  | true,false  |  false  |
 | collapsable     | 是否可以展开收起节点   | Boolean  | true,false  |  false  |
 | disabled     | 禁止编辑，设为true后，所有节点不可新增下级、编辑和删除，单个节点禁止编辑，可将节点属性设置disabled为true   | Boolean  | true,false  |  true  |
 | draggable     | 架构图是否可拖拽，单个节点禁止拖拽，可将节点属性设置noDragging为true   | Boolean  | true,false  |  true  |
-| draggableOnNode     | 架构图拖拽在节点触发，nodeDraggable值为false时，设为true才有效  | Boolean  | true,false  |  false  |
-| nodeDraggable     | 节点是否可拖拽   | Boolean  | true,false  |  true  |
-| cloneNodeDrag     | 是否拷贝节点拖拽   | Boolean  | true,false  |  true  |
-| onlyOneNode     | 是否仅拖动当前节点，如果true，仅拖动当前节点，子节点自动添加到当前节点父节点，如果false，则当前节点及子节点一起拖动   | Boolean  | true,false  |  true  |
-| renderContent     | 渲染函数   | Function  |  —   |   —   |
-| labelStyle     | 自定义label标签的样式   | Object  |  —   |   —    |
-| labelClassName     | 自定义label节点的样式名   | [Function, String]  |  —   |   —   |
-| selectedClassName  | 自定义选择节点的样式名   | [Function, String]  |  —   |   —   |
+| draggable-on-node     | 架构图拖拽在节点触发，node-draggable值为false时，设为true才有效  | Boolean  | true,false  |  false  |
+| node-draggable     | 节点是否可拖拽   | Boolean  | true,false  |  true  |
+| clone-node-drag     | 是否拷贝节点拖拽   | Boolean  | true,false  |  true  |
+| only-one-node     | 是否仅拖动当前节点，如果true，仅拖动当前节点，子节点自动添加到当前节点父节点，如果false，则当前节点及子节点一起拖动   | Boolean  | true,false  |  true  |
 | node-add  | 自定义节点新增，覆盖默认新增行为（参数当前节点node）  | Function   |  —   |   —   |
 | node-delete  | 自定义节点删除，覆盖默认新增行为（参数当前节点node） | Function   |  —   |   —   |
 | node-edit  | 自定义节点编辑，覆盖默认新增行为（参数当前节点node） | Function   |  —   |   —   |
 | node-copy  | 复制节点文本，覆盖默认复制节点文本行为（参数当前节点node） | Function   |  —   |   —   |
+| render-content     | 渲染函数   | Function  |  —   |   —   |
+| label-style     | 自定义label标签的样式   | Object  |  —   |   —    |
+| label-className     | 自定义label节点的样式名   | [Function, String]  |  —   |   —   |
+| selected-className  | 自定义选择节点的样式名   | [Function, String]  |  —   |   —   |
 
 ### Events
 

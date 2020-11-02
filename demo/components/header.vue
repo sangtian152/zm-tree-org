@@ -5,7 +5,7 @@
         <h2>zm-tree-org</h2>
       </i-col>
       <i-col span="6" class="link">
-        <a href="https://gitee.com/sangtian152/zm-tree-org" class="gitee" target="_blank">Gitee</a>
+        <a href="https://github.com/sangtian152/zm-tree-org" class="gitee" target="_blank">GitHub</a>
       </i-col>
     </row>
   </header>
