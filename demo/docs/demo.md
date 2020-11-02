@@ -13,7 +13,7 @@
         <div style="margin-right: 10px"><i-switch v-model="collapsable"></i-switch> 可收起</div>
         <div style="margin-right: 10px"><i-switch v-model="disaled"></i-switch> 禁止编辑</div>
         <div style="margin-right: 10px"><i-switch v-model="onlyOneNode"></i-switch> 仅拖动当前节点</div>
-        <div style="margin-right: 10px"><i-switch v-model="cloneNodeDrag"></i-switch> 拖动节点f副本</div>
+        <div style="margin-right: 10px"><i-switch v-model="cloneNodeDrag"></i-switch> 拖动节点副本</div>
     </div>
     <div>
       背景色：
@@ -54,29 +54,29 @@
                 style: { color:'#fff', background:'#108ffe' },
                 children: [
                   {
-                    id: 5,
+                    id: 6,
                     pid: 2,
                     label: "禁止编辑节点",
                     disabled: true,
                   },
                   {
-                    id: 6,
+                    id: 7,
                     pid: 2,
                     label: "研发-后端"
                   },
                   {
-                    id: 9,
+                    id: 8,
                     pid: 2,
                     label: "禁止拖拽节点",
                     noDragging: true
                   },
                   {
-                    id: 10,
+                    id: 9,
                     pid: 2,
                     label: "产品经理"
                   },
                   {
-                    id: 11,
+                    id: 10,
                     pid: 2,
                     label: "测试"
                   }
@@ -88,12 +88,12 @@
                 label: "客服部",
                 children: [
                   {
-                    id: 7,
+                    id: 11,
                     pid: 3,
                     label: "客服一部"
                   },
                   {
-                    id: 8,
+                    id: 12,
                     pid: 3,
                     label: "客服二部"
                   }
@@ -105,7 +105,7 @@
                 label: "业务部"
               },
               {
-                id: 9,
+                id: 5,
                 pid: 1,
                 label: "人力资源中心"
               }

@@ -1,36 +1,32 @@
 # zm-tree-org
 
 #### Description
-{**When you're done, you can delete the content in this README and update the file with details for others getting started with your repository**}
-
-#### Software Architecture
-Software architecture description
+A simplified organization chart with components dependent on [Vue org tree]（ https://github.com/hukaibaihu/vue-org-tree ).
+On this basis, part of the source code is optimized and modified. And it depends on [Vue draggable recoverable]（ https://github.com/mauricius/vue-draggable-resizable ）To achieve the mouse drag to change the chart's position, and increase the mouse wheel zoom, node drag, and node editing and other functions
 
 #### Installation
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+```
+npm install zm-tree-org --save
+# or 
+yarn add zm-tree-org
+```
 
 #### Instructions
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+```
+import Vue from 'vue';
+import ZmTreeOrg from 'zm-tree-org';
+import "zm-tree-org/lib/zm-tree-org.css";
 
-#### Contribution
+Vue.use(ZmTreeOrg);
+```
 
-1.  Fork the repository
-2.  Create Feat_xxx branch
-3.  Commit your code
-4.  Create Pull Request
+#### Latest version
+
+[![NPM version](https://img.shields.io/npm/v/zm-tree-org)](https://www.npmjs.com/package/zm-tree-org).
 
 
-#### Gitee Feature
+#### Document
 
-1.  You can use Readme\_XXX.md to support different languages, such as Readme\_en.md, Readme\_zh.md
-2.  Gitee blog [blog.gitee.com](https://blog.gitee.com)
-3.  Explore open source project [https://gitee.com/explore](https://gitee.com/explore)
-4.  The most valuable open source project [GVP](https://gitee.com/gvp)
-5.  The manual of Gitee [https://gitee.com/help](https://gitee.com/help)
-6.  The most popular members  [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
+Detailed instructions [click here](https://sangtian152.gitee.io/zm-tree-org/).
