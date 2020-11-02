@@ -51,6 +51,7 @@
       nodeAdd: Function,
       nodeDelete: Function,
       nodeEdit: Function,
+      nodeCopy: Function,
       disabled: Boolean,
 		},
 		data(){
@@ -141,6 +142,10 @@
 				}
 			},
 			handleCopy(){
+        if (this.nodeCopy) {
+          this.nodeCopy(this.node)
+          return
+        }
 				this.copyText = this.node[this.props.label];
         this.$nextTick(()=>{
           this.$refs.copy.select(); // 选中文本
@@ -173,7 +178,7 @@
 			},
 			handleEdit(){
 				if (this.nodeEdit) {
-					this.nodeAdd(this.nodeEdit)
+					this.nodeEdit(this.node)
 					return
 				}
 				this.$set(this.node, "focused", true)
@@ -206,13 +211,15 @@
 		overflow: hidden;
 		border: 1px solid #ddd;
 		box-shadow:  0px 2px 10px 0px rgba(29, 29, 31, 0.1);
-		ul, li {
+		ul {
 			list-style-type: none;
+      padding: 0;
 		}
 		li {
 			font-size: 12px;
 			padding: 3px 10px;
 			cursor: pointer;
+      list-style-type: none;
 			&:hover {
 				color: #2d8cf0;
 				background: #f0faff;

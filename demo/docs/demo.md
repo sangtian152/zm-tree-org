@@ -3,6 +3,7 @@
 ### 基础用法
 
 可以设置类似的data数据格式来生成树形组织图，并可以通过style精确配置每个节点的样式或className精确配置每个节点的class名
+注：由于节点拖拽功能阻止了节点文本选中，所以，在右键菜单中提供了复制节点文本功能。
 
 ::: demo
 ```html
@@ -35,6 +36,7 @@
         :node-drag-end="nodeDragEnd"
         @on-expand="onExpand"
         @on-node-click="onNodeClick"
+        @on-node-copy="onNodeCopy"
       ></zm-tree-org>
     </div>
   </div>
@@ -140,6 +142,9 @@
           onNodeClick(e, data) {
             this.$Message.info(data.label)
           },
+          onNodeCopy(){
+            this.$Message.success("复制成功")
+          },
           handleNodeAdd(node){
             console.log(node)
             this.$Message.info("新增节点")
@@ -190,6 +195,7 @@
 | node-add  | 自定义节点新增，覆盖默认新增行为（参数当前节点node）  | Function   |  —   |   —   |
 | node-delete  | 自定义节点删除，覆盖默认新增行为（参数当前节点node） | Function   |  —   |   —   |
 | node-edit  | 自定义节点编辑，覆盖默认新增行为（参数当前节点node） | Function   |  —   |   —   |
+| node-copy  | 复制节点文本，覆盖默认复制节点文本行为（参数当前节点node） | Function   |  —   |   —   |
 
 ### Events
 
@@ -199,6 +205,8 @@
 | on-node-click | 节点点击事件  | e, data  |
 | on-node-focus | 节点获取焦点事件  | e, data  |
 | on-node-blur | 节点失去焦点事件  | e, data  |
+| on-node-copy | 复制节点文本事件，如果设置了node-copy属性，此事件将不会执行  | 复制的文本  |
+| on-node-delete | 删除节点事件，如果设置了node-delete属性，此事件将不会执行  | 删除的节点  |
 | on-zoom | 缩放事件  | scale缩放倍数  |
 | on-drag | 拖拽事件  | x, y  |
 | on-drag-stop | 拖拽结束事件  | x, y  |

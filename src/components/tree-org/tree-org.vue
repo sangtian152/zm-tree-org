@@ -77,15 +77,19 @@
     />
     <zm-contextmenu
       :visible.sync="contextmenu"
-      :node-add="nodeAdd"
-      :node-delete="nodeDelete"
-      :node-edit="nodeEdit"
-      :disabled="disabled"
+      :x="menuX"
+      :y="menuY"
       :node="menuData"
       :data="data"
       :props="keys"
-      :x="menuX"
-      :y="menuY" />
+      :disabled="disabled"
+      :node-add="nodeAdd"
+      :node-delete="nodeDelete"
+      :node-edit="nodeEdit"
+      :node-copy="nodeCopy"
+      @on-node-copy="(txt) => { $emit('on-node-copy', txt)}"
+      @on-node-delete="(txt) => { $emit('on-node-delete', txt)}"
+       />
   </div>
 </template>
 
@@ -174,6 +178,7 @@
       nodeAdd: Function,
       nodeDelete: Function,
       nodeEdit: Function,
+      nodeCopy: Function,
     },
     data(){
       return {
