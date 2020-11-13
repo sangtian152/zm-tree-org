@@ -45,7 +45,8 @@
         <div v-if="tools.scale" class="zm-tree-percent">{{zoomPercent}}</div>
         <div v-if="tools.expand" @click="expandChange" :title="expandTitle" class="zm-tree-handle-item">
           <span class="zm-tree-svg">
-            <img :src="svgUrl.expand" alt="">
+            <i :class="['iconfont', expanded ? 'icon-collapse' : 'icon-expand']"></i>
+            <!-- <img :src="svgUrl.expand" alt=""> -->
           </span>
         </div>
         <div v-if="tools.zoom" @click="enlargeOrgchart" title="放大" class="zm-tree-handle-item zoom-out">
@@ -59,7 +60,8 @@
         </div>
         <div v-if="tools.fullscreen" @click="handleFullscreen" :title="fullTiltle" class="zm-tree-handle-item">
           <span class="zm-tree-svg">
-            <img :src="svgUrl.fullscreen" alt="">
+            <i :class="['iconfont', fullscreen ? 'icon-unfullscreen' : 'icon-fullscreen']"></i>
+            <!-- <img :src="svgUrl.fullscreen" alt=""> -->
           </span>
         </div>
       </div>
@@ -98,10 +100,6 @@
   import cloneOrg from "@/components/clone-org"
   import ZmContextmenu from "@/components/contextmenu"
   import drag from "@/directives/drag"
-  import fsIcon from "@/svg/fullscreen.svg";
-  import unfsIcon from "@/svg/unfullscreen.svg";
-  import exIcon from "@/svg/expand.svg";
-  import cosIcon from "@/svg/collapse.svg";
   export default {
     name: 'ZmTreeOrg',
     components: {
@@ -232,12 +230,6 @@
       },
       fullTiltle(){
         return this.fullscreen ? "退出全屏" : "全屏";
-      },
-      svgUrl(){
-        return {
-          fullscreen: this.fullscreen ? unfsIcon: fsIcon,
-          expand: this.expanded ? cosIcon : exIcon
-        }
       },
       nodeargs(){
         return {

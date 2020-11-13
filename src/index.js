@@ -8,7 +8,7 @@ import ZmTreeOrg from './components/tree-org'
 import VueDraggableResizable from "vue-draggable-resizable";
 // optionally import default styles
 import "vue-draggable-resizable/dist/VueDraggableResizable.css";
-import "@/styles/index.scss"
+import "@/styles/index.scss";
 const components = [
   ZmTreeOrg,
   VueDraggableResizable
