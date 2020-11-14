@@ -95,7 +95,7 @@
   </div>
 </template>
 
-<script>
+<script type="text/babel">
   import render from './node';
   import cloneOrg from "@/components/clone-org"
   import ZmContextmenu from "@/components/contextmenu"

@@ -20,9 +20,6 @@ module.exports = {
     chainWebpack: config => {
         config.module
         .rule('js')
-        .include
-            .add(resolve('packages'))
-            .end()
         .use('babel')
             .loader('babel-loader')
             .tap(options => {
