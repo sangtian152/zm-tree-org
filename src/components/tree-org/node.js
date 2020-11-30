@@ -35,7 +35,7 @@ export const renderNode = (h, data, context, root) => {
     cls.push('collapsed')
   }
   if(data.moving) {
-    cls.push('tree-org-node-moving')
+    cls.push('tree-org-node__moving')
   }
   // 渲染label块
   childNodes.push(renderLabel(h, data, context, root))
@@ -57,7 +57,7 @@ export const renderNode = (h, data, context, root) => {
 export const renderBtn = (h, data, { props, listeners }) => {
   const expandHandler = listeners['on-expand']
 
-  let cls = ['tree-org-node-btn']
+  let cls = ['tree-org-node__expand']
 
   if (data[props.props.expand]) {
     cls.push('expanded')
@@ -93,7 +93,7 @@ export const renderLabel = (h, data, context, root) => {
     childNodes.push(renderBtn(h, data, context))
   }
 
-  const cls = ['tree-org-node-label-inner']
+  const cls = ['tree-org-node__inner']
   let { labelStyle, labelClassName, selectedClassName, selectedKey } = props
 
   if (typeof labelClassName === 'function') {
@@ -108,11 +108,11 @@ export const renderLabel = (h, data, context, root) => {
   }
 
   selectedClassName && selectedKey && data[selectedKey] && cls.push(selectedClassName)
-  const nodeLabelClass = ['tree-org-node-label'];
+  const nodeLabelClass = ['tree-org-node__content'];
   if (root) {
-    nodeLabelClass.push('root-tree-org-node-label')
+    nodeLabelClass.push('is-root')
   } else if (data.newNode){
-    nodeLabelClass.push('new-tree-org-node-label')
+    nodeLabelClass.push('is-new')
   }
   // directives
   let cloneDirs 
@@ -138,13 +138,13 @@ export const renderLabel = (h, data, context, root) => {
   const blurHandler = listeners['on-node-blur']
   return h('div', {
     'class': nodeLabelClass,
-    'directives': root? [] : cloneDirs,
   }, [h('div', {
     'class': cls,
+    'directives': root? [] : cloneDirs,
     style: data['style'] ? data['style'] : labelStyle,
     on: NODEEVENTS,
   },childNodes), h('textarea', {
-    'class': "tree-org-node-textarea",
+    'class': "tree-org-node__textarea",
     'directives' :[{
       name: 'show',
       value: data.focused
@@ -173,7 +173,7 @@ export const renderChildren = (h, list, context) => {
     })
 
     return h('div', {
-      'class': 'tree-org-node-children'
+      'class': 'tree-org-node__children'
     }, children)
   }
   return ''

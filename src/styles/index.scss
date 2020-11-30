@@ -22,7 +22,7 @@
   &:after {
     clear: both;
   }
-  &-node, &-node-children {
+  &-node, &-node__children {
     position: relative;
     margin: 0;
     padding: 0;
@@ -59,7 +59,7 @@
     &:not(:last-child):after {
       border-top: 1px solid #ddd;
     }
-    &-textarea {
+    &__textarea {
       width: 100%;
       height: 100%;
       position:absolute;
@@ -67,22 +67,24 @@
       left: 0;
       font-size: 14px;
     }
-    &-label {
+    &__content {
       position: relative;
       display: inline-block;
       user-select: none;
-      &.new-tree-org-node-label {
+      &.is-new {
         width: 50px;
         height: 100px;
       }
-      .tree-org-node-label-inner {
-        padding: 10px 15px;
+      .tree-org-node__inner {
         text-align: center;
         border-radius: 2px;
         box-shadow: 0 1px 5px rgba(0, 0, 0, .15);
       }
+      .tree-org-node__text {
+        padding: 10px 15px;
+      }
     }
-    &-btn {
+    &__expand {
       position: absolute;
       top: 100%;
       left: 50%;
@@ -135,7 +137,7 @@
 
 .collapsable .tree-org-node.collapsed {
   padding-bottom: 30px;
-  .tree-org-node-label:after {
+  .tree-org-node__content:after {
     content: '';
     position: absolute;
     top: 100%;
@@ -154,7 +156,7 @@
     border-left: 0;
   }
 }
-.tree-org-node-children {
+.tree-org-node__children {
   display: table;
   padding-top: 20px;
   &:before {
@@ -220,7 +222,7 @@
 
   }
 
-  .tree-org-node-label {
+  .tree-org-node__content {
     display: table-cell;
     vertical-align: middle;
   }
@@ -228,7 +230,7 @@
   &.collapsable .tree-org-node.collapsed {
     padding-right: 30px;
 
-    .tree-org-node-label:after {
+    .tree-org-node__content:after {
       top: 0;
       left: 100%;
       width: 20px;
@@ -238,7 +240,7 @@
     }
   }
 
-  .tree-org-node-btn {
+  .tree-org-node__expand {
     top: 50%;
     left: 100%;
     margin-top: -11px;
@@ -252,11 +254,7 @@
     border-bottom: 0;
   }
 
-  .tree-org-node-children {
-    // display: flex;
-    // flex-direction: column;
-    // justify-content: center;
-    // align-items: flex-start;
+  .tree-org-node__children {
     display: table-cell;
     padding-top: 0;
     padding-left: 20px;
@@ -269,7 +267,6 @@
       border-left: 0;
       border-top: 1px solid #ddd;
     }
-
     &:after {
       display: none;
     }

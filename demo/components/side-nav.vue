@@ -35,8 +35,8 @@
   .side-nav {
     position: fixed;
     top: 80px;
+    bottom: 0;
     width: 260px;
-    height: calc(100vh - 216px);
     overflow: hidden;
     padding-top: 20px;
     box-sizing: border-box;

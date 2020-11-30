@@ -10,9 +10,11 @@
       :label-class-name="labelClassName"
     >
       <template slot-scope="scope">
-        <div>
-          <span>{{scope.node[props.label]}}</span>
-        </div>
+        <slot :node="scope.node">
+          <div class="tree-org-node__text">
+            <span>{{scope.node[props.label]}}</span>
+          </div>
+        </slot>
       </template>
     </tree-org-node>
   </div>

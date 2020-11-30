@@ -40,6 +40,8 @@
     color: #4e6e8e;
     background: #f1f1f1;
     padding:15px 0;
+    position: relative;
+    z-index: 200;
     .footer-container {
       width: $app-main-width;
       margin: 0 auto;

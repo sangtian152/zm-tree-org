@@ -39,7 +39,7 @@
           >
           <template slot-scope="scope">
             <slot :node="scope.node">
-              <div>
+              <div class="tree-org-node__text">
                 <span>{{scope.node[keys.label]}}</span>
               </div>
             </slot>
@@ -309,9 +309,6 @@
         }
         this.$emit('on-drag-stop', {x, y})
       },
-      nodeDrag(e){
-        console.log(e)
-      },
       nodeMouseenter(e, data){
         if (this.nodeMoving) {
           this.parenNode = data;
@@ -388,7 +385,7 @@
       },
       handleExpand(e, data) {
         e.stopPropagation();
-        const el = document.querySelector(".root-tree-org-node-label");
+        const el = document.querySelector(".is-root");
         const left = el.offsetLeft;
         const top = el.offsetTop;
         if ("expand" in data) {
@@ -405,7 +402,6 @@
         this.$emit('on-expand', e, data)
       },
       handleBlur(e, data){
-        console.log(this.menuData)
         const { children, id, label } = this.keys;
         const childNodes = this.menuData[children];
         for (let i = childNodes.length; i > 0; i--){

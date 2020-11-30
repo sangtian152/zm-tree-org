@@ -94,12 +94,13 @@ export default {
     let { l, t } = modifiers;
     const { drag, node, handleStart, handleMove, handleEnd } = value;
     el.addEventListener("mousedown", handleDownCb)
-    let offsetLeft, hasRender;
+    let offsetLeft = 0, hasRender = false;
     let cloneTree = null;
     let screenX = 0, screenY = 0;
     function initData(e){ // 初始化拖动数据
       screenX = e.screenX;
       screenY = e.screenY;
+      offsetLeft = 0;
       const { context } = vnode;
       context.contextmenu = false; // 隐藏右键菜单
       const { keys, onlyOneNode } = context;
@@ -130,8 +131,13 @@ export default {
       const { context } = vnode;
       context.nodeMoving = true;
       node.moving = true;
+      let ndom = el;
+      while(!ndom.classList.contains("tree-org-node")){
+        offsetLeft += ndom.offsetLeft;
+        ndom = ndom.offsetParent;
+      }
       // 拖动节点副本
-      offsetLeft = el.offsetLeft + 2;
+      offsetLeft = offsetLeft + 2;
       cloneTree = document.querySelector("#clone-tree-org");
       cloneTree.style.opacity = 0.8;
       cloneTree.style.left = e.clientX - offsetLeft + "px";
@@ -175,7 +181,7 @@ export default {
       cloneTree = null;
       node.moving = false;
       vnode.context.nodeMoving = false;
-      const movingNode = document.querySelector(".tree-org-node-moving");
+      const movingNode = document.querySelector(".tree-org-node__moving");
       if (movingNode.contains(e.target)) {
         handleEmit("end", true)
         return false;
