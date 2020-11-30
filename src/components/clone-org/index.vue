@@ -8,7 +8,13 @@
       :collapsable="collapsable"
       :render-content="renderContent"
       :label-class-name="labelClassName"
-    />
+    >
+      <template slot-scope="scope">
+        <div>
+          <span>{{scope.node[props.label]}}</span>
+        </div>
+      </template>
+    </tree-org-node>
   </div>
 </template>
 <script>
@@ -47,9 +53,7 @@
       }
     },
     mounted(){
-      console.log('mounted', 1)
       if(!this.init){
-        console.log('mounted')
         document.body.appendChild(this.$el);
       }
       this.init = true;

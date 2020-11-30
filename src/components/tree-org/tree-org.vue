@@ -29,13 +29,22 @@
             :label-class-name="labelClassName"
             v-nodedrag.l.t="nodeargs"
             @on-expand="handleExpand"
-            @on-node-click="(e, data) => { $emit('on-node-click', e, data)}"
+            @on-node-click="handleClick"
+            @on-node-dblclick="handleDblclick"
             @on-node-mouseenter="nodeMouseenter"
             @on-node-mouseleave="nodeMouseleave"
             @on-node-contextmenu="nodeContextmenu"
             @on-node-focus="(e, data) => { $emit('on-node-focus', e, data)}"
             @on-node-blur="handleBlur"
-          />
+          >
+          <template slot-scope="scope">
+            <slot :node="scope.node">
+              <div>
+                <span>{{scope.node[keys.label]}}</span>
+              </div>
+            </slot>
+          </template>
+          </tree-org-node>
         </div>
       </vue-draggable-resizable>
       <!-- <div v-nodedrag>11111</div> -->
@@ -163,6 +172,10 @@
         type: Boolean,
         default: true
       },
+      clickDelay: { // 是否仅拖动当前节点
+        type: Number,
+        default: 260
+      },
       nodeDragStart: Function,
       nodeDraging: Function,
       nodeDragEnd: Function,
@@ -208,6 +221,7 @@
         menuData:{},
         menuX: 0,
         menuY: 0,
+        timer: null,
       }
     },
     computed:{
@@ -356,6 +370,21 @@
         const y = el.offsetTop - top;
         this.left -= x;
         this.top -= y;
+      },
+      handleClick(e, data){
+        // 取消上次延时未执行的方法
+        clearTimeout(this.timer);
+        //执行延时
+        this.timer = setTimeout(() => {
+          //此处为单击事件要执行的代码
+          this.$emit('on-node-click', e, data)
+        }, this.clickDelay);
+      },
+      handleDblclick(e, data){
+        // 取消上次延时未执行的方法
+        clearTimeout(this.timer);
+        //此处为单击事件要执行的代码
+        this.$emit('on-node-dblclick', e, data)
       },
       handleExpand(e, data) {
         e.stopPropagation();

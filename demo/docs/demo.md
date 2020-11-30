@@ -42,8 +42,14 @@
         :node-drag-end="nodeDragEnd"
         @on-expand="onExpand"
         @on-node-click="onNodeClick"
+        @on-node-dblclick="onNodeDblclick"
         @on-node-copy="onNodeCopy"
-      ></zm-tree-org>
+      >
+        <!-- 自定义节点内容 -->
+        <!-- <template slot-scope="scope">
+          <div class="node-label">{{scope.node.label}}</div>
+        </template> -->
+      </zm-tree-org>
     </div>
   </div>
 </template>
@@ -148,6 +154,9 @@
           onNodeClick(e, data) {
             this.$Message.info(data.label)
           },
+          onNodeDblclick(){
+            this.$Message.info("双击节点")
+          },
           onNodeCopy(){
             this.$Message.success("复制成功")
           },
@@ -202,6 +211,7 @@
 | label-style     | 自定义label标签的样式   | Object  |  —   |   —    |
 | label-className     | 自定义label节点的样式名   | [Function, String]  |  —   |   —   |
 | selected-className  | 自定义选择节点的样式名   | [Function, String]  |  —   |   —   |
+| click-delay  | 单机事件延迟（毫秒），解决双击鼠标时同时触发单击事件问题   | Number  |  —   |   260   |
 
 ### Events
 
@@ -209,6 +219,7 @@
 |---------- |-------- |---------- |
 | on-expand | 节点展开事件，注意，展开节点时如监听了label点击事件，则需要阻止冒泡 e.stopPropagation()  | e, data  |
 | on-node-click | 节点点击事件  | e, data  |
+| on-node-dblclick | 节点双击事件  | e, data  |
 | on-node-focus | 节点获取焦点事件  | e, data  |
 | on-node-blur | 节点失去焦点事件  | e, data  |
 | on-node-copy | 复制节点文本事件，如果设置了node-copy属性，此事件将不会执行  | 复制的文本  |
@@ -216,3 +227,9 @@
 | on-zoom | 缩放事件  | scale缩放倍数  |
 | on-drag | 拖拽事件  | x, y  |
 | on-drag-stop | 拖拽结束事件  | x, y  |
+
+### Slot
+
+| name      | 说明    |
+|---------- |-------- |
+| — | 自定义节点内容，参数为 { node }  |

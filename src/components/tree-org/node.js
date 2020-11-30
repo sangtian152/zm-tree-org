@@ -1,5 +1,8 @@
+// 功能插件
+import log from '@/utils/log'
 const EVENTS = {
   CLICK: 'on-node-click',
+  DBLCLICK: 'on-node-dblclick',
   CONTEXTMENU: 'on-node-contextmenu',
   MOUSEENTER: 'on-node-mouseenter',
   MOUSELEAVE: 'on-node-mouseleave'
@@ -76,9 +79,11 @@ export const renderLabel = (h, data, context, root) => {
   const { directives } = context.data;
 
   const childNodes = []
-  if (typeof renderContent === 'function') {
+  if (context.scopedSlots.default) {
+    childNodes.push(context.scopedSlots.default({node: data}))
+  } else if (typeof renderContent === 'function') {
+    log.warning('scoped-slot header is easier to use. We recommend users to use scoped-slot header.');
     let vnode = renderContent(h, data)
-
     vnode && childNodes.push(vnode)
   } else {
     childNodes.push(label)
@@ -137,8 +142,8 @@ export const renderLabel = (h, data, context, root) => {
   }, [h('div', {
     'class': cls,
     style: data['style'] ? data['style'] : labelStyle,
-    on: NODEEVENTS
-  }, childNodes), h('textarea', {
+    on: NODEEVENTS,
+  },childNodes), h('textarea', {
     'class': "tree-org-node-textarea",
     'directives' :[{
       name: 'show',
