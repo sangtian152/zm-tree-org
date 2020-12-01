@@ -37,10 +37,10 @@
             @on-node-focus="(e, data) => { $emit('on-node-focus', e, data)}"
             @on-node-blur="handleBlur"
           >
-          <template slot-scope="scope">
-            <slot :node="scope.node">
+          <template slot-scope="{node}">
+            <slot :node="node">
               <div class="tree-org-node__text">
-                <span>{{scope.node[keys.label]}}</span>
+                <span>{{node[keys.label]}}</span>
               </div>
             </slot>
           </template>
@@ -85,7 +85,15 @@
       :collapsable="collapsable"
       :render-content="renderContent"
       :label-class-name="labelClassName"
-    />
+    >
+    <template slot-scope="{node}">
+      <slot :node="node">
+        <div class="tree-org-node__text">
+          <span>{{node[keys.label]}}</span>
+        </div>
+      </slot>
+    </template>
+    </clone-org>
     <zm-contextmenu
       :visible.sync="contextmenu"
       :x="menuX"

@@ -9,12 +9,8 @@
       :render-content="renderContent"
       :label-class-name="labelClassName"
     >
-      <template slot-scope="scope">
-        <slot :node="scope.node">
-          <div class="tree-org-node__text">
-            <span>{{scope.node[props.label]}}</span>
-          </div>
-        </slot>
+      <template slot-scope="{node}">
+        <slot :node="node"></slot>
       </template>
     </tree-org-node>
   </div>

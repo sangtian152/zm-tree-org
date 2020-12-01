@@ -139,6 +139,7 @@ export default {
       // 拖动节点副本
       offsetLeft = offsetLeft + 2;
       cloneTree = document.querySelector("#clone-tree-org");
+      cloneTree.style.width = `${ndom.clientWidth}px`;
       cloneTree.style.opacity = 0.8;
       cloneTree.style.left = e.clientX - offsetLeft + "px";
       cloneTree.style.top = e.clientY + 2 + "px";

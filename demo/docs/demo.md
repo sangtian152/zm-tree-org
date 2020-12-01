@@ -46,8 +46,8 @@
         @on-node-copy="onNodeCopy"
       >
         <!-- 自定义节点内容 -->
-        <!-- <template slot-scope="scope">
-          <div class="node-label">{{scope.node.label}}</div>
+        <!-- <template slot-scope="{node}">
+          <div class="tree-org-node__text node-label">{{node.label + node.id}}</div>
         </template> -->
       </zm-tree-org>
     </div>
