@@ -6,15 +6,12 @@
       :style="zoomStyle"
       @wheel="zoomWheel"
     >
-      <vue-draggable-resizable
-        w="auto"
-        h="auto"
+      <zm-draggable
         :x="left"
         :y="top"
         :class="{ dragging: autoDragging }"
         @dragging="onDrag"
         @dragstop="onDragStop"
-        :handles="[]"
         :draggable="draggable"
         :drag-cancel="dragCancel"
       >
@@ -46,7 +43,7 @@
           </template>
           </tree-org-node>
         </div>
-      </vue-draggable-resizable>
+      </zm-draggable>
       <!-- <div v-nodedrag>11111</div> -->
     </div>
     <template v-if="tools">
@@ -114,6 +111,7 @@
 
 <script type="text/babel">
   import render from './node';
+  import zmDraggable from "@/components/zm-draggable"
   import cloneOrg from "@/components/clone-org"
   import ZmContextmenu from "@/components/contextmenu"
   import drag from "@/directives/drag"
@@ -121,6 +119,7 @@
     name: 'ZmTreeOrg',
     components: {
       cloneOrg,
+      zmDraggable,
       ZmContextmenu,
       TreeOrgNode: {
         render,

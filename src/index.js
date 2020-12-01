@@ -4,14 +4,10 @@ import "@/utils/polyfill"
 import corePlugin from './plugin/core'
 // 组件
 import ZmTreeOrg from './components/tree-org'
-// 拖拽缩放组件
-import VueDraggableResizable from "vue-draggable-resizable";
-// optionally import default styles
-import "vue-draggable-resizable/dist/VueDraggableResizable.css";
+
 import "@/styles/index.scss";
 const components = [
-  ZmTreeOrg,
-  VueDraggableResizable
+  ZmTreeOrg
 ]
 
 const install = function (Vue) {

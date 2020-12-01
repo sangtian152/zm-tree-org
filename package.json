@@ -1,6 +1,6 @@
 {
   "name": "zm-tree-org",
-  "version": "1.3.7",
+  "version": "1.4.0",
   "author": "zzh",
   "private": false,
   "main": "lib/zm-tree-org.common.js",
@@ -27,8 +27,7 @@
   },
   "dependencies": {
     "core-js": "^3.6.5",
-    "vue": "^2.6.11",
-    "vue-draggable-resizable": "^2.2.0"
+    "vue": "^2.6.11"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",
@@ -65,7 +64,15 @@
     "parserOptions": {
       "parser": "babel-eslint"
     },
-    "rules": {}
+    "rules": {
+      "no-unused-vars": [
+        1,
+        {
+          "vars": "all",
+          "args": "after-used"
+        }
+      ]
+    }
   },
   "browserslist": [
     "> 1%",
