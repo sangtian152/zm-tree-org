@@ -490,14 +490,5 @@
   }
 </script>
 <style lang="scss" scoped>
-.zm-tree-org {
-  background: #fff;
-  .vdr {
-    touch-action: none;
-    border: none;
-    &:not(.dragging) {
-      transition: all 0.1s;
-    }
-  }
-}
+
 </style>

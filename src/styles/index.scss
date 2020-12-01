@@ -3,6 +3,13 @@
   height: 100%;
   padding: 15px;
   position: relative;
+  background: #fff;
+  .zm-draggable {
+    touch-action: none;
+    &:not(.dragging) {
+      transition: all 0.1s;
+    }
+  }
   .zoom-container {
     position: relative;
     width: 100%;
