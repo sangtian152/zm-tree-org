@@ -162,7 +162,7 @@
 				const { id, pid, label, expand, children } = this.props;
 				const { node } = this
 				const json = {
-					[id]: "",
+					[id]: String(new Date().getTime()),
 					[pid]: node[id],
 					[label]: "",
 					[expand]: false,
@@ -173,7 +173,7 @@
 				if(Array.isArray(node[children])){
 					node[children].push(json)
 				} else {
-					node[children] = [json]
+					this.$set(node, children, [].concat(json))
 				}
 			},
 			handleEdit(){

@@ -65,15 +65,17 @@ const addChildNode = function(node, context){
   if( parenNode ){
     const { keys } = context;
     const { id, pid } = keys;
-    delete node.root
+    const nodeClone = JSON.parse(JSON.stringify(node));
+    if(nodeClone.root) {
+      nodeClone.root = undefined;
+    }
     if (!cloneNodeDrag) {
       // 如果拖拽节点
       removeNode(node, context)
-      node[pid] = parenNode[id];
-      parenNode.children ? parenNode.children.push(node) : parenNode.children = [node];
+      nodeClone[pid] = parenNode[id];
+      parenNode.children ? parenNode.children.push(nodeClone) : parenNode.children = [].concat(nodeClone);
     } else {
       // 如果拷贝并拖拽节点
-      const nodeClone = JSON.parse(JSON.stringify(node));
       recurseData(nodeClone, keys, function(item){
         if(typeof item[id] === "string"
           && item[id].indexOf("clone-node") != -1){
