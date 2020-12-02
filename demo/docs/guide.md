@@ -1,12 +1,12 @@
 ## 介绍
 
 一个简易版组织架构图，组件依赖于[vue-org-tree](https://github.com/hukaibaihu/vue-org-tree)，
-在此基础上将部分源代码进行优化修改。并且依赖于[vue-draggable-resizable](https://github.com/mauricius/vue-draggable-resizable)，实现鼠标拖动改变位置，并增加鼠标滚轮缩放，节点拖拽，以及节点编辑等功能。
+在此基础上将部分源代码进行优化修改。增加鼠标拖拽和鼠标滚轮缩放，并支持节点拖拽，以及节点编辑等功能。
 
 ## 安装
 
     
-`@1.3.1` 表示版本号，建议锁定版本号来保证代码的稳定性
+`@1.4.2` 表示版本号，建议锁定版本号来保证代码的稳定性
 
 ### npm 安装
 
