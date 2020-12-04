@@ -51,7 +51,7 @@ const removeNode = function(node, context){
   }
   // 如果仅移动当前节点，把当前节点的子节点添加到当前节点的父节点，并把当前节点子节点移除
   const childNodes = node[children];
-  if (onlyOneNode && index && childNodes) {
+  if (onlyOneNode && index !== undefined && childNodes) {
     node[children] = [];
     childNodes.forEach(it => {
       it[pid] = oldPaNode[id];
@@ -71,7 +71,7 @@ const addChildNode = function(node, context){
     }
     if (!cloneNodeDrag) {
       // 如果拖拽节点
-      removeNode(node, context)
+      removeNode(nodeClone, context)
       nodeClone[pid] = parenNode[id];
       parenNode.children ? parenNode.children.push(nodeClone) : parenNode.children = [].concat(nodeClone);
     } else {
