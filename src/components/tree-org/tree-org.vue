@@ -41,6 +41,11 @@
               </div>
             </slot>
           </template>
+          <template v-slot:expand="{node}">
+            <slot name="expand" :node="node">
+              <span class="tree-org-node__expand-btn"></span>
+            </slot>
+          </template>
           </tree-org-node>
         </div>
       </zm-draggable>
@@ -88,6 +93,11 @@
         <div class="tree-org-node__text">
           <span>{{node[keys.label]}}</span>
         </div>
+      </slot>
+    </template>
+    <template v-slot:expand="{node}">
+      <slot name="expand" :node="node">
+        <span class="tree-org-node__expand-btn"></span>
       </slot>
     </template>
     </clone-org>

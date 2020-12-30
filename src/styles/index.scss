@@ -106,37 +106,39 @@
       box-shadow: 0 0 2px rgba(0, 0, 0, .15);
       cursor: pointer;
       transition: all .35s ease;
+      &.expanded {
+        margin-left: -10px;
+      }
       &:hover {
         background-color: #e7e8e9;
         transform: scale(1.15);
       }
+      .tree-org-node__expand-btn {
+        &:before, &:after {
+          content: '';
+          position: absolute;
+        }
 
-      &:before, &:after {
-        content: '';
-        position: absolute;
+        &:before {
+          top: 50%;
+          left: 4px;
+          right: 4px;
+          height: 0;
+          border-top: 1px solid #ccc;
+        }
+
+        &:after {
+          top: 4px;
+          left: 50%;
+          bottom: 4px;
+          width: 0;
+          border-left: 1px solid #ccc;
+        }
       }
-
-      &:before {
-        top: 50%;
-        left: 4px;
-        right: 4px;
-        height: 0;
-        border-top: 1px solid #ccc;
-      }
-
-      &:after {
-        top: 4px;
-        left: 50%;
-        bottom: 4px;
-        width: 0;
-        border-left: 1px solid #ccc;
-      }
-
       &.expanded {
-        margin-left: -10px;
-      }
-      &.expanded:after {
-        border: none;
+        .tree-org-node__expand-btn:after {
+          border: none;
+        }
       }
     }
   }

@@ -54,7 +54,8 @@ export const renderNode = (h, data, context, root) => {
 }
 
 // 创建展开折叠按钮
-export const renderBtn = (h, data, { props, listeners }) => {
+export const renderBtn = (h, data, context) => {
+  const { props, listeners } = context;
   const expandHandler = listeners['on-expand']
 
   let cls = ['tree-org-node__expand']
@@ -62,13 +63,18 @@ export const renderBtn = (h, data, { props, listeners }) => {
   if (data[props.props.expand]) {
     cls.push('expanded')
   }
-
+  const children = []
+  if (context.scopedSlots.expand) {
+    children.push(context.scopedSlots.expand({node: data}))
+  } else {
+    children.push(h('span', {'class': 'tree-org-node__expand-btn'}))
+  }
   return h('span', {
     'class': cls,
     on: {
       click: e => expandHandler && expandHandler(e, data)
     }
-  })
+  }, children)
 }
 
 // 创建 label 节点

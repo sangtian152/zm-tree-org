@@ -12,6 +12,9 @@
       <template slot-scope="{node}">
         <slot :node="node"></slot>
       </template>
+      <template v-slot:expand="{node}">
+        <slot name="expand" :node="node"></slot>
+      </template>
     </tree-org-node>
   </div>
 </template>

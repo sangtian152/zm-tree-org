@@ -49,6 +49,10 @@
         <!-- <template slot-scope="{node}">
           <div class="tree-org-node__text node-label">{{node.label + node.id}}</div>
         </template> -->
+        <!-- 自定义展开按钮 -->
+        <!-- <template v-slot:expand="{node}">
+          <div>{{node.children.length}}</div>
+        </template> -->
       </zm-tree-org>
     </div>
   </div>
@@ -233,3 +237,4 @@
 | name      | 说明    |
 |---------- |-------- |
 | — | 自定义节点内容，参数为 { node }  |
+| expand | 自定义节点展开按钮内容，参数为 { node }  |
