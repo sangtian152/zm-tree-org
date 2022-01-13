@@ -108,11 +108,13 @@
       :node="menuData"
       :data="data"
       :props="keys"
+      :menus="defineMenus"
       :disabled="disabled"
       :node-add="nodeAdd"
       :node-delete="nodeDelete"
       :node-edit="nodeEdit"
       :node-copy="nodeCopy"
+      @contextmenu="(arg) => { $emit('on-contextmenu', arg) }"
       @on-node-copy="(txt) => { $emit('on-node-copy', txt)}"
       @on-node-delete="(txt) => { $emit('on-node-delete', txt)}"
        />
@@ -203,6 +205,7 @@
       labelStyle: Object,
       labelClassName: [Function, String],
       selectedClassName: [Function, String],
+      defineMenus: Array,
       nodeAdd: Function,
       nodeDelete: Function,
       nodeEdit: Function,

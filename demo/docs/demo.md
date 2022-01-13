@@ -40,6 +40,7 @@
         :clone-node-drag="cloneNodeDrag"
         :node-draging="nodeDragMove"
         :node-drag-end="nodeDragEnd"
+        @on-contextmenu="onMenus"
         @on-expand="onExpand"
         @on-node-click="onNodeClick"
         @on-node-dblclick="onNodeDblclick"
@@ -145,6 +146,9 @@
           this.toggleExpand(this.data, this.expandAll);
       }, 
       methods:{
+        onMenus({node, command}) {
+          console.log(node, command)
+        },
           onExpand(e, data) {
             console.log(e, data)
           },
@@ -196,7 +200,7 @@
 
 | 参数      | 说明    | 类型      | 可选值       | 默认值   |
 |---------- |-------- |---------- |-------------  |-------- |
-| data     | 数据源,必须传入   | []  |  —   |   —   |
+| data     | 数据源,必须传入   | Object  |  —   |   —   |
 | props    | 结构map参考   | Object  |  —   |  {id: 'id', pid: 'pid', label: 'label', expand: 'expand',children: 'children'  }  |
 | toolBar    | 工具栏   | [Object, Boolean] |  —   |  {scale: true, restore: true, expand: true, zoom: true, fullscreen: true,  }  |
 | horizontal     | 是否是横向   | Boolean  | true,false  |  false  |
@@ -211,11 +215,19 @@
 | node-delete  | 自定义节点删除，覆盖默认新增行为（参数当前节点node） | Function   |  —   |   —   |
 | node-edit  | 自定义节点编辑，覆盖默认新增行为（参数当前节点node） | Function   |  —   |   —   |
 | node-copy  | 复制节点文本，覆盖默认复制节点文本行为（参数当前节点node） | Function   |  —   |   —   |
+| define-menus  | 自定义右键菜单，接受包含name和command属性的对象数组 | Array   |  [{ name: '复制文本', command: 'copy' },{ name: '新增节点', command: 'add' },{ name: '编辑节点', command: 'edit' },{ name: '删除节点', command: 'delete' }]  |   —   |
 | render-content     | 渲染函数   | Function  |  —   |   —   |
 | label-style     | 自定义label标签的样式   | Object  |  —   |   —    |
 | label-className     | 自定义label节点的样式名   | [Function, String]  |  —   |   —   |
 | selected-className  | 自定义选择节点的样式名   | [Function, String]  |  —   |   —   |
 | click-delay  | 单机事件延迟（毫秒），解决双击鼠标时同时触发单击事件问题   | Number  |  —   |   260   |
+
+```
+注：
+1.如果需要拖动节点，或新增、编辑和删除节点功能，则节点必须有id（节点唯一标识）和pid（父级节点唯一标识）属性
+或者通过props指定id和pid属性
+2.由于节点拖拽功能阻止了节点文本选中，所以，在右键菜单中提供了复制节点文本功能。
+```
 
 ### Events
 
@@ -228,6 +240,7 @@
 | on-node-blur | 节点失去焦点事件  | e, data  |
 | on-node-copy | 复制节点文本事件，如果设置了node-copy属性，此事件将不会执行  | 复制的文本  |
 | on-node-delete | 删除节点事件，如果设置了node-delete属性，此事件将不会执行  | 删除的节点  |
+| on-contextmenu | 右键菜单点击事件  | {command, node}  |
 | on-zoom | 缩放事件  | scale缩放倍数  |
 | on-drag | 拖拽事件  | x, y  |
 | on-drag-stop | 拖拽结束事件  | x, y  |
