@@ -1,9 +1,10 @@
 {
   "name": "zm-tree-org",
-  "version": "1.4.6",
+  "version": "1.4.7",
   "author": "zzh",
   "private": false,
   "main": "lib/zm-tree-org.common.js",
+  "license": "MIT",
   "homepage": "https://sangtian152.gitee.io/zm-tree-org",
   "files": [
     "lib"
@@ -17,7 +18,7 @@
     "orgchart",
     "vue",
     "tree-org",
-    "components"
+    "组织架构图"
   ],
   "scripts": {
     "serve": "vue-cli-service serve",
