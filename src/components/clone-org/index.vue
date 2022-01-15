@@ -3,6 +3,7 @@
     <tree-org-node
       :data="data"
       :props="props"
+      :is-clone="false"
       :horizontal="horizontal"
       :label-style="labelStyle"
       :collapsable="collapsable"

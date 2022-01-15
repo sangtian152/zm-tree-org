@@ -187,7 +187,7 @@ export const renderChildren = (h, list, context) => {
 
 export const render = (h, context) => {
   const { props } = context
-  props.data.root = true;
+  props.data.root = props.isClone ? false : true;
   return renderNode(h, props.data, context, true)
 }
 
