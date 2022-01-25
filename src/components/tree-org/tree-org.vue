@@ -423,7 +423,7 @@
       },
       handleBlur(e, data){
         const { children, id, label } = this.keys;
-        const childNodes = this.menuData[children];
+        const childNodes = this.menuData[children] || [];
         for (let i = childNodes.length; i > 0; i--){
           let item = childNodes[i - 1]
           if (item[id] == "" && item[label]==""){
