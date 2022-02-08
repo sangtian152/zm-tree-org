@@ -10,6 +10,8 @@
 - 支持slot自定义节点渲染内容
 - 支持slot自定义展开按钮渲染内容
 
+vue3.x版本请访问[vue3-tree-org](https://sangtian152.github.io/vue3-tree-org/)
+
 ### 安装
 ```
 npm install zm-tree-org --save
