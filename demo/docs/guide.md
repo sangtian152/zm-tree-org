@@ -3,7 +3,9 @@
 一个简易版组织架构图，组件依赖于[vue-org-tree](https://github.com/hukaibaihu/vue-org-tree)，
 在此基础上将部分源代码进行优化修改。增加鼠标拖拽和鼠标滚轮缩放，并支持节点拖拽，以及节点编辑等功能。
 
-#### vue3.x版本请访问 [vue3-tree-org](https://sangtian152.github.io/vue3-tree-org/)
+:::tip
+vue3.x版本请访问 [vue3-tree-org](https://sangtian152.github.io/vue3-tree-org/)
+:::
 
 ## 安装
 
