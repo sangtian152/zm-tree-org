@@ -40,6 +40,7 @@
         :clone-node-drag="cloneNodeDrag"
         :node-draging="nodeDragMove"
         :node-drag-end="nodeDragEnd"
+        :toolBar="toolBar"
         @on-contextmenu="onMenus"
         @on-expand="onExpand"
         @on-node-click="onNodeClick"
@@ -62,6 +63,9 @@
     export default {
       data(){
         return {
+          toolBar: {
+            scale: false
+          },
           data: {
             id: 1,
             label: "xxx科技有限公司",
@@ -202,7 +206,7 @@
 |---------- |-------- |---------- |-------------  |-------- |
 | data     | 数据源,必须传入   | Object  |  —   |   —   |
 | props    | 结构map参考   | Object  |  —   |  {id: 'id', pid: 'pid', label: 'label', expand: 'expand',children: 'children'  }  |
-| toolBar    | 工具栏   | [Object, Boolean] |  —   |  {scale: true, restore: true, expand: true, zoom: true, fullscreen: true,  }  |
+| tool-bar    | 工具栏   | [Object, Boolean] |  —   |  {scale: true, restore: true, expand: true, zoom: true, fullscreen: true,  }  |
 | horizontal     | 是否是横向   | Boolean  | true,false  |  false  |
 | collapsable     | 是否可以展开收起节点   | Boolean  | true,false  |  false  |
 | disabled     | 禁止编辑，设为true后，所有节点不可新增下级、编辑和删除，单个节点禁止编辑，可将节点属性设置disabled为true   | Boolean  | true,false  |  true  |
@@ -218,8 +222,7 @@
 | define-menus  | 自定义右键菜单，接受包含name和command属性的对象数组 | Array   |  [{ name: '复制文本', command: 'copy' },{ name: '新增节点', command: 'add' },{ name: '编辑节点', command: 'edit' },{ name: '删除节点', command: 'delete' }]  |   —   |
 | render-content     | 渲染函数   | Function  |  —   |   —   |
 | label-style     | 自定义label标签的样式   | Object  |  —   |   —    |
-| label-className     | 自定义label节点的样式名   | [Function, String]  |  —   |   —   |
-| selected-className  | 自定义选择节点的样式名   | [Function, String]  |  —   |   —   |
+| label-class-name     | 自定义label节点的样式名   | [Function, String]  |  —   |   —   |
 | click-delay  | 单机事件延迟（毫秒），解决双击鼠标时同时触发单击事件问题   | Number  |  —   |   260   |
 
 ```

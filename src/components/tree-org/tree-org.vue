@@ -102,6 +102,7 @@
     </template>
     </clone-org>
     <zm-contextmenu
+      v-if="defineMenus.length"
       :visible.sync="contextmenu"
       :x="menuX"
       :y="menuY"
@@ -284,8 +285,10 @@
     },
     created(){
       Object.assign(this.keys, this.props);
+      console.log(this.toolBar)
       if(typeof this.toolBar === 'object') {
         Object.assign(this.tools, this.toolBar);
+        console.log(this.tools, 290)
       } else if(!this.toolBar){
         this.tools = false;
       }
