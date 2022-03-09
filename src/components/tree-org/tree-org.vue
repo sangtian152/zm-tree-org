@@ -102,7 +102,7 @@
     </template>
     </clone-org>
     <zm-contextmenu
-      v-if="defineMenus.length"
+      v-if="!defineMenus || defineMenus.length"
       :visible.sync="contextmenu"
       :x="menuX"
       :y="menuY"
