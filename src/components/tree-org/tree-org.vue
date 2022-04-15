@@ -22,6 +22,7 @@
             :horizontal="horizontal"
             :label-style="labelStyle"
             :collapsable="collapsable"
+            :default-expand-level="defaultExpandLevel"
             :render-content="renderContent"
             :label-class-name="labelClassName"
             v-nodedrag.l.t="nodeargs"
@@ -196,6 +197,7 @@
         type: Number,
         default: 260
       },
+      defaultExpandLevel: Number,
       nodeDragStart: Function,
       nodeDraging: Function,
       nodeDragEnd: Function,

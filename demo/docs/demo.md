@@ -36,6 +36,7 @@
         :collapsable="collapsable"
         :label-style="style"
         :node-draggable="true"
+        :default-expand-level="1"
         :only-one-node="onlyOneNode"
         :clone-node-drag="cloneNodeDrag"
         :node-draging="nodeDragMove"
@@ -52,9 +53,9 @@
           <div class="tree-org-node__text node-label">{{node.label + node.id}}</div>
         </template> -->
         <!-- 自定义展开按钮 -->
-        <!-- <template v-slot:expand="{node}">
+        <template v-slot:expand="{node}">
           <div>{{node.children.length}}</div>
-        </template> -->
+        </template>
       </zm-tree-org>
     </div>
   </div>
@@ -75,6 +76,7 @@
                 pid: 1,
                 label: "产品研发部",
                 style: { color:'#fff', background:'#108ffe' },
+                expand: false,
                 children: [
                   {
                     id: 6,
@@ -147,7 +149,7 @@
         } 
       },
       created(){
-          this.toggleExpand(this.data, this.expandAll);
+          // this.toggleExpand(this.data, this.expandAll);
       }, 
       methods:{
         onMenus({node, command}) {
@@ -209,6 +211,7 @@
 | tool-bar    | 工具栏   | [Object, Boolean] |  —   |  {scale: true, restore: true, expand: true, zoom: true, fullscreen: true,  }  |
 | horizontal     | 是否是横向   | Boolean  | true,false  |  false  |
 | collapsable     | 是否可以展开收起节点   | Boolean  | true,false  |  false  |
+| default-expand-level     | 默认展开层级（如果层级内有节点展开属性值为false，该节点不会默认展开）   | Number  | ——  |  ——  |
 | disabled     | 禁止编辑，设为true后，所有节点不可新增下级、编辑和删除，单个节点禁止编辑，可将节点属性设置disabled为true   | Boolean  | true,false  |  true  |
 | draggable     | 架构图是否可拖拽，单个节点禁止拖拽，可将节点属性设置noDragging为true   | Boolean  | true,false  |  true  |
 | draggable-on-node     | 架构图拖拽在节点触发，node-draggable值为false时，设为true才有效  | Boolean  | true,false  |  false  |

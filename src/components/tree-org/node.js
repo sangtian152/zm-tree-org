@@ -28,10 +28,15 @@ export const renderNode = (h, data, context, root) => {
   const cls = ['tree-org-node']
   const childNodes = []
   const children = data[props.props.children]
+  const expandKey = props.props.expand
+  if(data[expandKey]===undefined && data.$$level < props.defaultExpandLevel) {
+    data[expandKey] = true
+  }
+  const isExpand = data[expandKey]
   // 如果是叶子节点则追加leaf事件
   if (isLeaf(data, props.props.children)) {
     cls.push('is-leaf')
-  } else if (props.collapsable && !data[props.props.expand]) { // 追加是否展开class
+  } else if (props.collapsable && !isExpand) { // 追加是否展开class
     cls.push('collapsed')
   }
   if(data.moving) {
@@ -40,8 +45,8 @@ export const renderNode = (h, data, context, root) => {
   // 渲染label块
   childNodes.push(renderLabel(h, data, context, root))
 
-  if (!props.collapsable || data[props.props.expand]) {
-    childNodes.push(renderChildren(h, children, context))
+  if (!props.collapsable || isExpand) {
+    childNodes.push(renderChildren(h, children, context, data.$$level))
   }
   return h('div', {
     'class': cls,
@@ -176,9 +181,10 @@ export const renderLabel = (h, data, context, root) => {
 }
 
 // 创建 node 子节点
-export const renderChildren = (h, list, context) => {
+export const renderChildren = (h, list, context, level) => {
   if (Array.isArray(list) && list.length) {
     const children = list.map(item => {
+      item.$$level = level + 1
       return renderNode(h, item, context, false)
     })
 
@@ -192,6 +198,7 @@ export const renderChildren = (h, list, context) => {
 export const render = (h, context) => {
   const { props } = context
   props.data.root = props.isClone ? false : true;
+  props.data.$$level = 0
   return renderNode(h, props.data, context, true)
 }
 
