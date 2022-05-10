@@ -183,7 +183,7 @@ export const renderLabel = (h, data, context, root) => {
 // 创建 node 子节点
 export const renderChildren = (h, list, context, level) => {
   if (Array.isArray(list) && list.length) {
-    const children = list.map(item => {
+    const children = list.filter(item => !item.hidden).map(item => {
       item.$$level = level + 1
       return renderNode(h, item, context, false)
     })

@@ -205,6 +205,7 @@
       selectedKey: String,
       collapsable: Boolean,
       renderContent: Function,
+      filterNodeMethod: Function,
       labelStyle: Object,
       labelClassName: [Function, String],
       selectedClassName: [Function, String],
@@ -287,10 +288,8 @@
     },
     created(){
       Object.assign(this.keys, this.props);
-      console.log(this.toolBar)
       if(typeof this.toolBar === 'object') {
         Object.assign(this.tools, this.toolBar);
-        console.log(this.tools, 290)
       } else if(!this.toolBar){
         this.tools = false;
       }
@@ -503,6 +502,38 @@
             this.toggleExpand(data.children, val);
           }
         }
+      },
+      filter(value) {
+        const filterNodeMethod = this.filterNodeMethod;
+        if (!filterNodeMethod) throw new Error('[Tree] filterNodeMethod is required when filter');
+        const { children, expand } = this.keys
+        const { $set } = this
+        const traverse = function(node) {
+          const childNodes = node[children] || [];
+
+          childNodes.forEach((child) => {
+            const hidden = !filterNodeMethod.call(child, value, child);
+            console.log(hidden, 516)
+            if('hidden' in child) {
+              child.hidden = hidden
+            } else {
+              $set(child, 'hidden', hidden)
+            }
+            traverse(child);
+          });
+
+          if (node.hidden && childNodes.length) {
+            let unHidden = true;
+            unHidden = childNodes.some(child => !child.hidden);
+
+            node.hidden = !unHidden;
+          }
+          if (!value) return;
+
+          if (!node.hidden && !node.isLeaf) node[expand] = true;
+        };
+
+        traverse(this.data);
       }
     }
   }

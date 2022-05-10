@@ -27,9 +27,12 @@
       <color-picker v-model="style.background" size="small"></color-picker>&nbsp;
       文字颜色：
       <color-picker v-model="style.color" size="small"></color-picker>&nbsp;
+      搜索：
+      <input type="text" v-model="keyword" placeholder="请输入搜索内容" @keydown.enter="filter" />
     </div>
     <div style="height: 400px; border:1px solid #eee">
       <zm-tree-org
+        ref="tree"
         :data="data"
         :disabled="disaled"
         :horizontal="horizontal"      
@@ -42,6 +45,7 @@
         :node-draging="nodeDragMove"
         :node-drag-end="nodeDragEnd"
         :toolBar="toolBar"
+        :filterNodeMethod="filterNodeMethod"
         @on-contextmenu="onMenus"
         @on-expand="onExpand"
         @on-node-click="onNodeClick"
@@ -67,6 +71,7 @@
           toolBar: {
             scale: false
           },
+          keyword: '',
           data: {
             id: 1,
             label: "xxx科技有限公司",
@@ -155,6 +160,13 @@
         onMenus({node, command}) {
           console.log(node, command)
         },
+        filter(){
+          this.$refs.tree.filter(this.keyword)
+        },
+        filterNodeMethod(value, data) {
+          if (!value) return true;
+          return data.label.indexOf(value) !== -1;
+        },
           onExpand(e, data) {
             console.log(e, data)
           },
@@ -211,6 +223,7 @@
 | tool-bar    | 工具栏   | [Object, Boolean] |  —   |  {scale: true, restore: true, expand: true, zoom: true, fullscreen: true,  }  |
 | horizontal     | 是否是横向   | Boolean  | true,false  |  false  |
 | collapsable     | 是否可以展开收起节点   | Boolean  | true,false  |  false  |
+| filter-node-method | 对树节点进行筛选时执行的方法，返回 true 表示这个节点可以显示，返回 false 则表示这个节点会被隐藏 | Function(value, data) | —— | —— |
 | default-expand-level     | 默认展开层级（如果层级内有节点展开属性值为false，该节点不会默认展开）   | Number  | ——  |  ——  |
 | disabled     | 禁止编辑，设为true后，所有节点不可新增下级、编辑和删除，单个节点禁止编辑，可将节点属性设置disabled为true   | Boolean  | true,false  |  true  |
 | draggable     | 架构图是否可拖拽，单个节点禁止拖拽，可将节点属性设置noDragging为true   | Boolean  | true,false  |  true  |
@@ -250,6 +263,12 @@
 | on-zoom | 缩放事件  | scale缩放倍数  |
 | on-drag | 拖拽事件  | x, y  |
 | on-drag-stop | 拖拽结束事件  | x, y  |
+
+### Methods
+
+| 事件名      | 说明    | 返回值      |
+|---------- |-------- |---------- |
+| filter | 对树节点进行筛选操作  | 接收一个任意类型的参数，该参数会在 filter-node-method 中作为第一个参数  |
 
 ### Slot
 
