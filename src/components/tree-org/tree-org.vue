@@ -197,6 +197,10 @@
         type: Number,
         default: 260
       },
+      scalable: { // 是否可缩放
+        type: Boolean,
+        default: true
+      },
       defaultExpandLevel: Number,
       nodeDragStart: Function,
       nodeDraging: Function,
@@ -355,6 +359,7 @@
         
       },
       zoomWheel(e) {
+        if(!this.scalable) return;
         e.preventDefault();
         // 鼠标滚轮缩放
         if (e.deltaY > 0) {
@@ -365,6 +370,7 @@
         this.$emit('on-zoom', this.scale)
       },
       enlargeOrgchart() {
+        if(!this.scalable) return;
         // 鼠标滚轮向上滚动放大
         if (Number(this.scale) < 3) {
           let scale = Number(this.scale) + 0.1;
@@ -372,6 +378,7 @@
         }
       },
       narrowOrgchart() {
+        if(!this.scalable) return;
         // 鼠标滚轮向下滚动缩小
         if (Number(this.scale) > 0.3) {
           let scale = Number(this.scale) - 0.1;

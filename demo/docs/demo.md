@@ -227,6 +227,7 @@
 | default-expand-level     | 默认展开层级（如果层级内有节点展开属性值为false，该节点不会默认展开）   | Number  | ——  |  ——  |
 | disabled     | 禁止编辑，设为true后，所有节点不可新增下级、编辑和删除，单个节点禁止编辑，可将节点属性设置disabled为true   | Boolean  | true,false  |  true  |
 | draggable     | 架构图是否可拖拽，单个节点禁止拖拽，可将节点属性设置noDragging为true   | Boolean  | true,false  |  true  |
+| scalable     | 架构图是否可缩放   | Boolean  | true,false  |  true  |
 | draggable-on-node     | 架构图拖拽在节点触发，node-draggable值为false时，设为true才有效  | Boolean  | true,false  |  false  |
 | node-draggable     | 节点是否可拖拽   | Boolean  | true,false  |  true  |
 | clone-node-drag     | 是否拷贝节点拖拽   | Boolean  | true,false  |  true  |
