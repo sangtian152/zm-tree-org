@@ -35,17 +35,11 @@
             @on-node-focus="(e, data) => { $emit('on-node-focus', e, data)}"
             @on-node-blur="handleBlur"
           >
-          <template slot-scope="{node}">
-            <slot :node="node">
-              <div class="tree-org-node__text">
-                <span>{{node[keys.label]}}</span>
-              </div>
-            </slot>
+          <template v-if="$scopedSlots.default" v-slot="{node}">
+            <slot :node="node"></slot>
           </template>
-          <template v-slot:expand="{node}">
-            <slot name="expand" :node="node">
-              <span class="tree-org-node__expand-btn"></span>
-            </slot>
+          <template v-if="$scopedSlots.expand" v-slot:expand="{node}">
+            <slot name="expand" :node="node"></slot>
           </template>
           </tree-org-node>
         </div>
@@ -89,17 +83,11 @@
       :render-content="renderContent"
       :label-class-name="labelClassName"
     >
-    <template slot-scope="{node}">
-      <slot :node="node">
-        <div class="tree-org-node__text">
-          <span>{{node[keys.label]}}</span>
-        </div>
-      </slot>
+    <template v-if="$scopedSlots.default" v-slot="{node}">
+      <slot :node="node"></slot>
     </template>
-    <template v-slot:expand="{node}">
-      <slot name="expand" :node="node">
-        <span class="tree-org-node__expand-btn"></span>
-      </slot>
+    <template v-if="$scopedSlots.expand" v-slot:expand="{node}">
+      <slot name="expand" :node="node"></slot>
     </template>
     </clone-org>
     <zm-contextmenu
@@ -291,7 +279,8 @@
       }
     },
     created(){
-      Object.assign(this.keys, this.props);
+      console.log(this)
+      this.keys = Object.assign(this.keys, this.props);
       if(typeof this.toolBar === 'object') {
         Object.assign(this.tools, this.toolBar);
       } else if(!this.toolBar){

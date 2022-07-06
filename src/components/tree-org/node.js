@@ -97,7 +97,9 @@ export const renderLabel = (h, data, context, root) => {
     let vnode = renderContent(h, data)
     vnode && childNodes.push(vnode)
   } else {
-    childNodes.push(label)
+    childNodes.push(h('div', {
+      class: 'tree-org-node__text'
+    }, label))
   }
 
   if (props.collapsable && !isLeaf(data, props.props.children)) {
