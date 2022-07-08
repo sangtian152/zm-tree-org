@@ -1,5 +1,8 @@
 <template>
-  <div id="clone-tree-org" class="clone-tree-org tree-org">
+  <div
+    id="clone-tree-org"
+    class="clone-tree-org tree-org"
+    :class="{horizontal, collapsable}">
     <tree-org-node
       :data="data"
       :props="props"
@@ -10,10 +13,10 @@
       :render-content="renderContent"
       :label-class-name="labelClassName"
     >
-      <template slot-scope="{node}">
+      <template v-if="$scopedSlots.default" v-slot="{node}">
         <slot :node="node"></slot>
       </template>
-      <template v-slot:expand="{node}">
+      <template v-if="$scopedSlots.expand" v-slot:expand="{node}">
         <slot name="expand" :node="node"></slot>
       </template>
     </tree-org-node>
