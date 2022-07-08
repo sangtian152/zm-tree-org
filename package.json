@@ -5,7 +5,7 @@
   "private": false,
   "main": "lib/zm-tree-org.common.js",
   "license": "MIT",
-  "homepage": "https://sangtian152.gitee.io/zm-tree-org",
+  "homepage": "https://sangtian152.github.io/zm-tree-org/",
   "files": [
     "lib"
   ],

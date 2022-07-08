@@ -30,7 +30,7 @@ Vue.use(ZmTreeOrg);
 ### 使用示例
 ![](https://oscimg.oschina.net/oscnet/up-84b0329b0dff74d87da1252248deb5aab5e.png)
 
-[示例代码](https://sangtian152.gitee.io/zm-tree-org/)
+[示例代码](https://sangtian152.github.io/zm-tree-org/)
 
 ### 最新版本
 
@@ -38,5 +38,5 @@ Vue.use(ZmTreeOrg);
 
 ### 文档
 
-[说明文档](https://sangtian152.gitee.io/zm-tree-org/).
+[说明文档](https://sangtian152.github.io/zm-tree-org/).
 
