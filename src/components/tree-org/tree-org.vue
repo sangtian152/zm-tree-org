@@ -253,7 +253,7 @@
         return `${Math.round(this.scale * 100)}%`
       },
       dragCancel(){
-        return this.draggableOnNode || !this.nodeDraggable ? '' : '.tree-org-node-label'
+        return this.draggableOnNode && !this.nodeDraggable ? '' : '.tree-org-node__inner'
       },
       expandTitle(){
         return this.expanded ? "收起全部节点" : "展开全部节点";

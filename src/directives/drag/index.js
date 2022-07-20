@@ -100,6 +100,7 @@ export default {
     let cloneTree = null;
     let screenX = 0, screenY = 0;
     function initData(e){ // 初始化拖动数据
+      e.stopPropagation();
       screenX = e.screenX;
       screenY = e.screenY;
       offsetLeft = 0;
@@ -116,7 +117,6 @@ export default {
       }
     }
     function handleDownCb(e){
-      e.stopPropagation();
       if( drag === false 
         || e.button!=0 
         || node.focused 
