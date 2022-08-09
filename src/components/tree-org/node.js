@@ -1,5 +1,6 @@
 // 功能插件
 import log from '@/utils/log'
+import Vue from 'vue'
 const EVENTS = {
   CLICK: 'on-node-click',
   DBLCLICK: 'on-node-dblclick',
@@ -30,7 +31,7 @@ export const renderNode = (h, data, context, root) => {
   const children = data[props.props.children]
   const expandKey = props.props.expand
   if(data[expandKey]===undefined && data.$$level < props.defaultExpandLevel) {
-    data[expandKey] = true
+    Vue.prototype.$set(data, expandKey, true)
   }
   const isExpand = data[expandKey]
   // 如果是叶子节点则追加leaf事件

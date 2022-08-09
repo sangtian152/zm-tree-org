@@ -408,13 +408,14 @@
         const el = document.querySelector(".is-root");
         const left = el.offsetLeft;
         const top = el.offsetTop;
-        if ("expand" in data) {
-          data.expand = !data.expand;
-          if (!data.expand && data.children) {
-            this.collapse(data.children);
+        const { expand, children } = this.keys
+        if (expand in data) {
+          this.$set(data, expand, !data.expand);
+          if (!data.expand && data[children]) {
+            this.collapse(data[children], {expand, children});
           }
         } else {
-          this.$set(data, "expand", true);
+          this.$set(data, expand, true);
         }
         this.$nextTick(() => {
           this.autoDrag(el, left, top);
@@ -467,12 +468,12 @@
             document.webkitExitFullscreen();
         }
       },
-      collapse(list) {
+      collapse(list, {expand, children}) {
         list.forEach(child => {
-          if (child.expand) {
-            child.expand = false;
+          if (child[expand]) {
+            child[expand] = false;
           }
-          child.children && this.collapse(child.children);
+          child[children] && this.collapse(child[children], {expand, children});
         });
       },
       expandChange() {
@@ -485,15 +486,16 @@
         }
       },
       toggleExpand(data, val) {
+        const { expand } = this.keys
         if (Array.isArray(data)) {
           data.forEach(item => {
-            this.$set(item, "expand", val);
+            this.$set(item, expand, val);
             if (item.children) {
               this.toggleExpand(item.children, val);
             }
           });
         } else {
-          this.$set(data, "expand", val);
+          this.$set(data, expand, val);
           if (data.children) {
             this.toggleExpand(data.children, val);
           }
@@ -509,7 +511,6 @@
 
           childNodes.forEach((child) => {
             const hidden = !filterNodeMethod.call(child, value, child);
-            console.log(hidden, 516)
             if('hidden' in child) {
               child.hidden = hidden
             } else {

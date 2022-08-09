@@ -1,5 +1,7 @@
 # zm-tree-org
 
+[![OSCS Status](https://www.oscs1024.com/platform/badge/sangtian152/zm-tree-org.svg?size=small)](https://www.oscs1024.com/project/sangtian152/zm-tree-org?ref=badge_small)
+
 ## 介绍
 一个简易版组织架构图，组件依赖于vue-org-tree， 在此基础上将部分源代码进行优化修改。可鼠标拖动拖拽，以及鼠标滚轮缩放，并且支持拖动节点改变树结构。
 - 架构图支持拖拽和通过鼠标滚轮缩放
