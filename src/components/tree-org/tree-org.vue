@@ -91,14 +91,14 @@
     </template>
     </clone-org>
     <zm-contextmenu
-      v-if="!defineMenus || defineMenus.length"
+      v-if="nodeMenus.length"
       :visible.sync="contextmenu"
       :x="menuX"
       :y="menuY"
       :node="menuData"
       :data="data"
       :props="keys"
-      :menus="defineMenus"
+      :menus="nodeMenus"
       :disabled="disabled"
       :node-add="nodeAdd"
       :node-delete="nodeDelete"
@@ -117,6 +117,7 @@
   import cloneOrg from "@/components/clone-org"
   import ZmContextmenu from "@/components/contextmenu"
   import drag from "@/directives/drag"
+  import { menus } from "@/components/contextmenu/menus"
   export default {
     name: 'ZmTreeOrg',
     components: {
@@ -202,7 +203,12 @@
       labelStyle: Object,
       labelClassName: [Function, String],
       selectedClassName: [Function, String],
-      defineMenus: Array,
+      defineMenus: {
+        type: [Array, Function],
+        default() {
+          return menus;
+        },
+      },
       nodeAdd: Function,
       nodeDelete: Function,
       nodeEdit: Function,
@@ -235,6 +241,7 @@
         cloneData:{},
         copyText:"",
         contextmenu: false,
+        nodeMenus: [],
         menuData:{},
         menuX: 0,
         menuY: 0,
@@ -343,6 +350,11 @@
       nodeContextmenu(e, data){
         e.stopPropagation();
         e.preventDefault();
+        if (Array.isArray(this.defineMenus)) {
+          this.nodeMenus = this.defineMenus
+        } else if (typeof this.defineMenus === 'function') {
+          this.nodeMenus = this.defineMenus(e, data) || []
+        }
         this.contextmenu = true;
         this.menuX = e.clientX;
         this.menuY = e.clientY;
