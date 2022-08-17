@@ -27,7 +27,6 @@
   </transition>
 </template>
 <script>
-import { menus } from "./menus";
 export default {
   name: "ZmContextmenu",
   props: {
@@ -57,9 +56,6 @@ export default {
     y: Number,
     menus: {
       type: Array,
-      default() {
-        return menus;
-      },
     },
     nodeAdd: Function,
     nodeDelete: Function,

@@ -1,6 +1,6 @@
 {
   "name": "zm-tree-org",
-  "version": "1.8.1",
+  "version": "1.8.2",
   "author": "zzh",
   "private": false,
   "main": "lib/zm-tree-org.common.js",
