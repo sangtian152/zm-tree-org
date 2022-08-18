@@ -44,7 +44,6 @@
           </tree-org-node>
         </div>
       </zm-draggable>
-      <!-- <div v-nodedrag>11111</div> -->
     </div>
     <template v-if="tools">
       <div class="zm-tree-handle">
@@ -52,7 +51,6 @@
         <div v-if="tools.expand" @click="expandChange" :title="expandTitle" class="zm-tree-handle-item">
           <span class="zm-tree-svg">
             <i :class="['iconfont', expanded ? 'icon-collapse' : 'icon-expand']"></i>
-            <!-- <img :src="svgUrl.expand" alt=""> -->
           </span>
         </div>
         <div v-if="tools.zoom" @click="enlargeOrgchart" title="放大" class="zm-tree-handle-item zoom-out">
@@ -67,7 +65,6 @@
         <div v-if="tools.fullscreen" @click="handleFullscreen" :title="fullTiltle" class="zm-tree-handle-item">
           <span class="zm-tree-svg">
             <i :class="['iconfont', fullscreen ? 'icon-unfullscreen' : 'icon-fullscreen']"></i>
-            <!-- <img :src="svgUrl.fullscreen" alt=""> -->
           </span>
         </div>
       </div>
@@ -245,6 +242,7 @@
         menuData:{},
         menuX: 0,
         menuY: 0,
+        stopClick: false,
         timer: null,
       }
     },
@@ -288,7 +286,6 @@
       }
     },
     created(){
-      console.log(this)
       this.keys = Object.assign(this.keys, this.props);
       if(typeof this.toolBar === 'object') {
         Object.assign(this.tools, this.toolBar);
@@ -299,6 +296,7 @@
     methods:{
       onDrag(x, y) {
         this.dragging = true;
+        this.stopClick = true;
         this.autoDragging = false;
         this.left = x;
         this.top = y;
@@ -334,6 +332,9 @@
           this.top = y;
         }
         this.$emit('on-drag-stop', {x, y})
+        setTimeout(() => {
+          this.stopClick = false;
+        }, 200)
       },
       nodeMouseenter(e, data){
         if (this.nodeMoving) {
@@ -403,6 +404,11 @@
         this.top -= y;
       },
       handleClick(e, data){
+        // 由于鼠标事件执行顺序
+        // mouseover--> mousedown-->mouseup-->click -->mouseout
+        // 拖拽时会触发node-click
+        // 通过 stopClick 判断，如果执行了拖拽，则不再执行node-click
+        if (this.stopClick) return;
         // 取消上次延时未执行的方法
         clearTimeout(this.timer);
         //执行延时

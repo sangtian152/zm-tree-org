@@ -132,6 +132,7 @@ export default {
     function moveStart(e){
       const { context } = vnode;
       context.nodeMoving = true;
+      context.stopClick = true;
       node.moving = true;
       let ndom = el;
       while(!ndom.classList.contains("tree-org-node")){
@@ -199,6 +200,9 @@ export default {
       cloneTree = null;
       node.moving = false;
       vnode.context.nodeMoving = false;
+      setTimeout(() => {
+        vnode.context.stopClick = false
+      }, 200)
     }
     function doDragEnd(e) {
       const movingNode = document.querySelector(".tree-org-node__moving");

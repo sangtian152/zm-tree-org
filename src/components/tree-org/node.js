@@ -78,7 +78,8 @@ export const renderBtn = (h, data, context) => {
   return h('span', {
     'class': cls,
     on: {
-      click: e => expandHandler && expandHandler(e, data)
+      dblclick: (e) => { e.stopPropagation(); },
+      click: e => { e.stopPropagation(); expandHandler && expandHandler(e, data)}
     }
   }, children)
 }
