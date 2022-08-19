@@ -245,7 +245,7 @@
 | before-drag-end  | 节点拖拽开始结束（参数当前节点node, 目标节点targetNode），若返回 false 或者返回 Promise 且被 reject，则阻止节点拖拽  | Function   |  —   |   —   |
 | node-drag-end  | 节点拖拽开始结束（参数当前节点node, 判断当前节点和目标节点是否同一节点isSelf）  | Function   |  —   |   —   |
 | node-add  | 自定义节点新增，覆盖默认新增行为（参数当前节点node）  | Function   |  —   |   —   |
-| node-delete  | 自定义节点删除，覆盖默认新增行为（参数当前节点node） | Function   |  —   |   —   |
+| node-delete  | 自定义节点删除，覆盖默认新增行为（参数当前节点node，父级节点parentNode） | Function   |  —   |   —   |
 | node-edit  | 自定义节点编辑，覆盖默认新增行为（参数当前节点node） | Function   |  —   |   —   |
 | node-copy  | 复制节点文本，覆盖默认复制节点文本行为（参数当前节点node） | Function   |  —   |   —   |
 | define-menus  | 自定义右键菜单，接受包含name和command属性的对象数组，或者一个返回值为包含name和command属性的对象数组的函数（参数MouseEvent和node） | Array, Function   |  [{ name: '复制文本', command: 'copy' },{ name: '新增节点', command: 'add' },{ name: '编辑节点', command: 'edit' },{ name: '删除节点', command: 'delete' }]  |   —   |
@@ -271,7 +271,7 @@
 | on-node-focus | 节点获取焦点事件  | e, data  |
 | on-node-blur | 节点失去焦点事件  | e, data  |
 | on-node-copy | 复制节点文本事件，如果设置了node-copy属性，此事件将不会执行  | 复制的文本  |
-| on-node-delete | 删除节点事件，如果设置了node-delete属性，此事件将不会执行  | 删除的节点  |
+| on-node-delete | 删除节点事件，如果设置了node-delete属性，此事件将不会执行  | 删除的节点node，父级节点parentNode  |
 | on-contextmenu | 右键菜单点击事件  | {command, node}  |
 | on-zoom | 缩放事件  | scale缩放倍数  |
 | on-drag | 拖拽事件  | x, y  |
