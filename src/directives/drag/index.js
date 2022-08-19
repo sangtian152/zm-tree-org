@@ -214,6 +214,7 @@ export default {
       handleEmit("end", false)
     }
     function handleEmit(type, isSelf){
+      console.log(vnode.context)
       if(type === "start") {
         typeof handleStart === "function" && handleStart(node);
         return
