@@ -110,21 +110,21 @@ export default {
     //移除节点
     handleDelete() {
       const { props, data, node } = this;
+      const { id, pid, children } = props;
+      const oldPaNode = this.getNodeById(data, id, node[pid]);
       if (this.nodeDelete) {
-        this.nodeDelete(node);
+        this.nodeDelete(node, oldPaNode);
         return;
       }
       if (node.root) {
         this.$log.pretty("[提示] ", "根节点不允许删除", "danger");
         return;
       }
-      const { id, pid, children } = props;
-      const oldPaNode = this.getNodeById(data, id, node[pid]);
       const list = oldPaNode[children];
       for (let i = 0, len = list.length; i < len; i++) {
         if (list[i][id] === node[id]) {
           list.splice(i, 1);
-          this.$emit("on-node-delete", node);
+          this.$emit("on-node-delete", node, oldPaNode);
           break;
         }
       }

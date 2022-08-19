@@ -103,7 +103,7 @@
       :node-copy="nodeCopy"
       @contextmenu="(arg) => { $emit('on-contextmenu', arg) }"
       @on-node-copy="(txt) => { $emit('on-node-copy', txt)}"
-      @on-node-delete="(txt) => { $emit('on-node-delete', txt)}"
+      @on-node-delete="(node, parentNode) => { $emit('on-node-delete', node, parentNode)}"
        />
   </div>
 </template>
