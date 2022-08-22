@@ -188,10 +188,7 @@
         default: true
       },
       defaultExpandLevel: Number,
-      nodeDragStart: Function,
-      nodeDraging: Function,
       beforeDragEnd: Function,
-      nodeDragEnd: Function,
       horizontal: Boolean,
       selectedKey: String,
       collapsable: Boolean,
@@ -270,10 +267,7 @@
       nodeargs(){
         return {
           drag: this.nodeDraggable,
-          handleStart: this.nodeDragStart,
-          handleMove: this.nodeDraging,
-          beforeDragEnd: this.beforeDragEnd,
-          handleEnd: this.nodeDragEnd
+          beforeDragEnd: this.beforeDragEnd
         }
       }
     },

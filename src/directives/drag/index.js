@@ -94,7 +94,7 @@ const addChildNode = function(node, context){
 export default {
   bind(el, { modifiers, value }, vnode){
     let { l, t } = modifiers;
-    const { drag, node, handleStart, handleMove, beforeDragEnd, handleEnd } = value;
+    const { drag, node, beforeDragEnd } = value;
     el.addEventListener("mousedown", handleDownCb)
     let offsetLeft = 0, hasRender = false;
     let cloneTree = null;
@@ -207,24 +207,24 @@ export default {
     function doDragEnd(e) {
       const movingNode = document.querySelector(".tree-org-node__moving");
       if (movingNode.contains(e.target)) {
-        handleEmit("end", true)
+        handleEmit("end")
         return false;
       }
       addChildNode(node, vnode.context)
-      handleEmit("end", false)
+      handleEmit("end")
     }
-    function handleEmit(type, isSelf){
-      console.log(vnode.context)
+    function handleEmit(type){
+      const { $listeners, parenNode } = vnode.context;
       if(type === "start") {
-        typeof handleStart === "function" && handleStart(node);
+        $listeners['on-node-drag-start'] && $listeners['on-node-drag-start'](node);
         return
       }
       if(type === "move") {
-        typeof handleMove === "function" && handleMove(node);
+        $listeners['on-node-drag'] && $listeners['on-node-drag'](node);
         return
       }
       if(type === "end") {
-        typeof handleEnd === "function" && handleEnd(node, isSelf);
+        $listeners['on-node-drag-end'] && $listeners['on-node-drag-end'](node, parenNode);
         return
       }
     }
