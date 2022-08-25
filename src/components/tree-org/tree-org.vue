@@ -19,6 +19,7 @@
           <tree-org-node
             :data="data"
             :props="keys"
+            :key="nodeKey"
             :horizontal="horizontal"
             :label-style="labelStyle"
             :collapsable="collapsable"
@@ -243,6 +244,7 @@
         menuX: 0,
         menuY: 0,
         stopClick: false,
+        nodeKey: +new Date(),
         timer: null,
       }
     },
@@ -437,6 +439,7 @@
         } else {
           this.$set(data, expand, true);
         }
+        this.nodeKey = +new Date();
         this.$nextTick(() => {
           this.autoDrag(el, left, top);
         });
