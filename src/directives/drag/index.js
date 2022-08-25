@@ -113,7 +113,7 @@ export default {
         cloneNode[children] = [];
         context.cloneData = cloneNode;
       } else {
-        context.cloneData = node;
+        context.cloneData = JSON.parse(JSON.stringify(node));
       }
     }
     function handleDownCb(e){
