@@ -113,7 +113,7 @@ export default {
         cloneNode[children] = [];
         context.cloneData = cloneNode;
       } else {
-        context.cloneData = node;
+        context.cloneData = JSON.parse(JSON.stringify(node));
       }
     }
     function handleDownCb(e){
@@ -198,7 +198,7 @@ export default {
     function reset() {
       hasRender = false;
       cloneTree = null;
-      node.moving = false;
+      delete node.moving;
       vnode.context.nodeMoving = false;
       setTimeout(() => {
         vnode.context.stopClick = false
@@ -210,6 +210,7 @@ export default {
         handleEmit("end")
         return false;
       }
+      delete node.moving;
       addChildNode(node, vnode.context)
       handleEmit("end")
     }
