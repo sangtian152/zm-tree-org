@@ -186,7 +186,7 @@ export default {
         if (before && before.then) {
           before.then(() => {
             doDragEnd(e)
-          })
+          }, () => {})
         } else if (before !== false) {
           doDragEnd(e)
         }
