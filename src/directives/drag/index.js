@@ -206,7 +206,7 @@ export default {
     }
     function doDragEnd(e) {
       const movingNode = document.querySelector(".tree-org-node__moving");
-      if (movingNode.contains(e.target)) {
+      if (movingNode && movingNode.contains(e.target)) {
         handleEmit("end", true)
         return false;
       }
