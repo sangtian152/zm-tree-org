@@ -53,7 +53,7 @@
         <div v-if="tools.scale" class="zm-tree-percent">{{zoomPercent}}</div>
         <div v-if="tools.expand" @click="expandChange" :title="expandTitle" class="zm-tree-handle-item">
           <span class="zm-tree-svg">
-            <i :class="['iconfont', expanded ? 'icon-collapse' : 'icon-expand']"></i>
+            <i :class="['treefont', expanded ? 'icon-collapse' : 'icon-expand']"></i>
           </span>
         </div>
         <div v-if="tools.zoom" @click="enlargeOrgchart" title="放大" class="zm-tree-handle-item zoom-out">
@@ -67,7 +67,7 @@
         </div>
         <div v-if="tools.fullscreen" @click="handleFullscreen" :title="fullTiltle" class="zm-tree-handle-item">
           <span class="zm-tree-svg">
-            <i :class="['iconfont', fullscreen ? 'icon-unfullscreen' : 'icon-fullscreen']"></i>
+            <i :class="['treefont', fullscreen ? 'icon-unfullscreen' : 'icon-fullscreen']"></i>
           </span>
         </div>
       </div>
