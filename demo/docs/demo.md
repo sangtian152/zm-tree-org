@@ -42,11 +42,11 @@
         :default-expand-level="1"
         :only-one-node="onlyOneNode"
         :clone-node-drag="cloneNodeDrag"
-        :node-draging="nodeDragMove"
         :before-drag-end="beforeDragEnd"
-        :node-drag-end="nodeDragEnd"
         :toolBar="toolBar"
         :filterNodeMethod="filterNodeMethod"
+        @on-node-drag="nodeDragMove"
+        @on-node-drag-end="nodeDragEnd"
         @on-contextmenu="onMenus"
         @on-expand="onExpand"
         @on-node-click="onNodeClick"
@@ -182,9 +182,8 @@
               }
             })
           },
-          nodeDragEnd(data, isSelf){
-            console.log(data, isSelf)
-            isSelf && this.$Message.info("移动到自身")
+          nodeDragEnd(node, parentNode){
+            node.id === parentNode.id && this.$Message.info("移动到自身")
           },
           onNodeClick(e, data) {
             this.$Message.info(data.label)
@@ -223,6 +222,78 @@
 ```
 :::
 
+
+
+### 懒加载子节点
+由于在点击节点时才进行该层数据的获取，默认情况下 Tree 无法预知某个节点是否为叶子节点，所以会为每个节点添加一个展开按钮，如果节点没有下层数据，则点击后展开按钮会消失。同时，你也可以提前告知 Tree 某个节点是否为叶子节点，从而避免在叶子节点前渲染下拉按钮
+:::tip
+启用懒加载之后，默认展开层级（default-expand-level）、默认展开节点数组（default-expand-keys）和工具栏全部展开按钮可能表现异常，应尽量避免使用
+:::
+
+::: demo
+```html
+<template>
+    <div style="height: 400px; border:1px solid #eee">
+      <zm-tree-org
+        ref="tree"
+        :data="data"
+        :lazy="lazy"
+        :load="loadData"
+        :horizontal="horizontal"      
+        :collapsable="collapsable"
+        :label-style="style"
+      />
+    </div>
+</template>
+<script>
+    export default {
+      data(){
+        return {
+          toolBar: {
+            scale: false
+          },
+          keyword: '',
+          data: {
+            id: 1,
+            label: "root节点",
+          },
+          lazy: true,
+          horizontal: false,
+          collapsable: true,
+          style: {
+            background:'#fff',
+            color:'#5e6d82'
+          }     
+        } 
+      },
+      methods:{
+        loadData(node, resolve) {
+            if (node.$$level === 0) {
+            return resolve([{ label: 'region', id: `${node.id}-1`, pid: node.id }]);
+        }
+        if (node.$$level > 1) return resolve([]);
+        setTimeout(() => {
+          const data = [{
+            label: 'leaf',
+            id: `${node.id}-1`,
+            pid: node.id,
+            isLeaf: true
+          }, {
+            label: 'zone',
+            id: `${node.id}-2`,
+            pid: node.id,
+          }];
+
+          resolve(data);
+        }, 100);
+        }
+      }  
+    }
+</script>
+```
+:::
+
+
 ### Attributes
 
 | 参数      | 说明    | 类型      | 可选值       | 默认值   |
@@ -241,10 +312,12 @@
 | node-draggable     | 节点是否可拖拽   | Boolean  | true,false  |  true  |
 | clone-node-drag     | 是否拷贝节点拖拽   | Boolean  | true,false  |  true  |
 | only-one-node     | 是否仅拖动当前节点，如果true，仅拖动当前节点，子节点自动添加到当前节点父节点，如果false，则当前节点及子节点一起拖动   | Boolean  | true,false  |  true  |
-| node-drag-start  | 节点拖拽开始（参数当前节点node）  | Function   |  —   |   —   |
-| node-draging  | 节点拖拽（参数当前节点node）  | Function   |  —   |   —   |
+| <font color="red">node-drag-start</font>  | 节点拖拽开始（参数当前节点node），<font color="red">2.0版本将废弃此属性，改为on-node-drag-start事件</font>  | Function   |  —   |   —   |
+| <font color="red">node-draging</font>  | 节点拖拽（参数当前节点node），<font color="red">2.0版本将废弃此属性，改为on-node-drag事件</font>  | Function   |  —   |   —   |
 | before-drag-end  | 节点拖拽结束前钩子（参数当前节点node, 目标节点targetNode），若返回 false 或者返回 Promise 且被 reject，则阻止节点拖拽  | Function   |  —   |   —   |
-| node-drag-end  | 节点拖拽结束后（参数当前节点node, 判断当前节点和目标节点是否同一节点isSelf）  | Function   |  —   |   —   |
+| <font color="red">node-drag-end</font>  | 节点拖拽结束（参数当前节点node, 判断当前节点和目标节点是否同一节点isSelf），<font color="red">2.0版本将废弃此属性，改为on-node-drag-end事件</font>  | Function   |  —   |   —   |
+| lazy  | 是否懒加载子节点，需与 load 方法结合使用，2.1版本新增  | boolean   |  —   |   —   |
+| load  | 加载子树数据的方法，仅当 lazy 属性为true 时生效，2.1版本新增  | Function(node, resolve)   |  —   |   false  |
 | node-add  | 自定义节点新增，覆盖默认新增行为（参数当前节点node）  | Function   |  —   |   —   |
 | node-delete  | 自定义节点删除，覆盖默认新增行为（参数当前节点node，父级节点parentNode） | Function   |  —   |   —   |
 | node-edit  | 自定义节点编辑，覆盖默认新增行为（参数当前节点node） | Function   |  —   |   —   |
@@ -273,6 +346,9 @@
 | on-node-blur | 节点失去焦点事件  | e, data  |
 | on-node-copy | 复制节点文本事件，如果设置了node-copy属性，此事件将不会执行  | 复制的文本  |
 | on-node-delete | 删除节点事件，如果设置了node-delete属性，此事件将不会执行  | 删除的节点node，父级节点parentNode  |
+| on-node-drag-start | 节点拖拽开始事件，2.0版本新增，代替原node-drag-start属性  | node  |
+| on-node-drag | 节点拖拽事件，2.0版本新增，代替原node-draging属性  | node  |
+| on-node-drag-end | 节点拖拽结束事件，2.0版本新增，代替原node-drag-end属性  | node, targetNode  |
 | on-contextmenu | 右键菜单点击事件  | {command, node}  |
 | on-zoom | 缩放事件  | scale缩放倍数  |
 | on-drag | 拖拽事件  | x, y  |

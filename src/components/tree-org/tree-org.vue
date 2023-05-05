@@ -19,7 +19,9 @@
           <tree-org-node
             :data="data"
             :props="keys"
+            :lazy="lazy"
             :key="nodeKey"
+            :suffix="suffix"
             :horizontal="horizontal"
             :label-style="labelStyle"
             :collapsable="collapsable"
@@ -51,7 +53,7 @@
         <div v-if="tools.scale" class="zm-tree-percent">{{zoomPercent}}</div>
         <div v-if="tools.expand" @click="expandChange" :title="expandTitle" class="zm-tree-handle-item">
           <span class="zm-tree-svg">
-            <i :class="['iconfont', expanded ? 'icon-collapse' : 'icon-expand']"></i>
+            <i :class="['treefont', expanded ? 'icon-collapse' : 'icon-expand']"></i>
           </span>
         </div>
         <div v-if="tools.zoom" @click="enlargeOrgchart" title="放大" class="zm-tree-handle-item zoom-out">
@@ -65,7 +67,7 @@
         </div>
         <div v-if="tools.fullscreen" @click="handleFullscreen" :title="fullTiltle" class="zm-tree-handle-item">
           <span class="zm-tree-svg">
-            <i :class="['iconfont', fullscreen ? 'icon-unfullscreen' : 'icon-fullscreen']"></i>
+            <i :class="['treefont', fullscreen ? 'icon-unfullscreen' : 'icon-fullscreen']"></i>
           </span>
         </div>
       </div>
@@ -116,6 +118,7 @@
   import ZmContextmenu from "@/components/contextmenu"
   import drag from "@/directives/drag"
   import { menus } from "@/components/contextmenu/menus"
+  import { randomString } from "@/utils/fns"
   export default {
     name: 'ZmTreeOrg',
     components: {
@@ -188,11 +191,10 @@
         type: Boolean,
         default: true
       },
+      lazy: Boolean,
+      load: Function,
       defaultExpandLevel: Number,
-      nodeDragStart: Function,
-      nodeDraging: Function,
       beforeDragEnd: Function,
-      nodeDragEnd: Function,
       horizontal: Boolean,
       selectedKey: String,
       collapsable: Boolean,
@@ -245,6 +247,7 @@
         menuY: 0,
         stopClick: false,
         nodeKey: +new Date(),
+        suffix: randomString(6),
         timer: null,
       }
     },
@@ -261,7 +264,7 @@
         return `${Math.round(this.scale * 100)}%`
       },
       dragCancel(){
-        return this.draggableOnNode && !this.nodeDraggable ? '' : '.tree-org-node__content:not(.is-root)>.tree-org-node__inner'
+        return this.draggableOnNode && !this.nodeDraggable ? '' : `.tree-org-node__content:not(.is-root_${this.suffix})>.tree-org-node__inner`
       },
       expandTitle(){
         return this.expanded ? "收起全部节点" : "展开全部节点";
@@ -272,10 +275,7 @@
       nodeargs(){
         return {
           drag: this.nodeDraggable,
-          handleStart: this.nodeDragStart,
-          handleMove: this.nodeDraging,
-          beforeDragEnd: this.beforeDragEnd,
-          handleEnd: this.nodeDragEnd
+          beforeDragEnd: this.beforeDragEnd
         }
       }
     },
@@ -427,7 +427,7 @@
       },
       handleExpand(e, data) {
         e.stopPropagation();
-        const el = document.querySelector(".is-root");
+        const el = document.querySelector(`.is-root_${this.suffix}`);
         const left = el.offsetLeft;
         const top = el.offsetTop;
         const { expand, children } = this.keys
@@ -439,11 +439,31 @@
         } else {
           this.$set(data, expand, true);
         }
-        this.nodeKey = +new Date();
+        let nm = true
+        if (data.expand && this.lazy && this.load) {
+          nm = false
+          this.loadData(data, this.load, () => {
+            this.nodeKey = +new Date()
+            this.$nextTick(() => {
+              this.autoDrag(el, left, top);
+            });
+          })
+        }
+        this.nodeKey = +new Date()
         this.$nextTick(() => {
-          this.autoDrag(el, left, top);
+          // nm && this.autoDrag(el, left, top);
         });
         this.$emit('on-expand', e, data)
+      },
+      loadData (node, load, cb) {
+        load(node, (data, auto) => {
+          const { children } = this.keys
+          node.isLeaf = !data.length
+          if (data.length) {
+            node[children] = data
+            auto && cb()
+          }
+        })
       },
       handleBlur(e, data){
         const { children, id, label } = this.keys;
@@ -509,18 +529,18 @@
         }
       },
       toggleExpand(data, val) {
-        const { expand } = this.keys
+        const { expand, children } = this.keys
         if (Array.isArray(data)) {
           data.forEach(item => {
             this.$set(item, expand, val);
-            if (item.children) {
-              this.toggleExpand(item.children, val);
+            if (item[children]) {
+              this.toggleExpand(item[children], val);
             }
           });
         } else {
           this.$set(data, expand, val);
-          if (data.children) {
-            this.toggleExpand(data.children, val);
+          if (data[children]) {
+            this.toggleExpand(data[children], val);
           }
         }
       },

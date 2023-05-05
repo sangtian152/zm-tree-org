@@ -64,7 +64,7 @@ const addChildNode = function(node, context){
   const { parenNode, onlyOneNode, cloneNodeDrag } = context;
   if( parenNode ){
     const { keys } = context;
-    const { id, pid } = keys;
+    const { id, pid, children } = keys;
     const nodeClone = JSON.parse(JSON.stringify(node));
     if(nodeClone.root) {
       nodeClone.root = undefined;
@@ -73,7 +73,7 @@ const addChildNode = function(node, context){
       // 如果拖拽节点
       removeNode(nodeClone, context)
       nodeClone[pid] = parenNode[id];
-      parenNode.children ? parenNode.children.push(nodeClone) : parenNode.children = [].concat(nodeClone);
+      parenNode[children] ? parenNode[children].push(nodeClone) : parenNode[children] = [].concat(nodeClone);
     } else {
       // 如果拷贝并拖拽节点
       recurseData(nodeClone, keys, function(item){
@@ -82,19 +82,18 @@ const addChildNode = function(node, context){
           item[id] = `clone-node-${item[id]}`
         }
       })
-      const { children } = keys;
       if (onlyOneNode && Array.isArray(nodeClone[children])){
         nodeClone[children] = [];
       }
       nodeClone[keys.pid] = parenNode[keys.id];
-      parenNode.children ? parenNode.children.push(nodeClone) : parenNode.children = [nodeClone];
+      parenNode[children] ? parenNode[children].push(nodeClone) : parenNode[children] = [nodeClone];
     }
   }
 }
 export default {
   bind(el, { modifiers, value }, vnode){
     let { l, t } = modifiers;
-    const { drag, node, handleStart, handleMove, beforeDragEnd, handleEnd } = value;
+    const { drag, node, beforeDragEnd } = value;
     el.addEventListener("mousedown", handleDownCb)
     let offsetLeft = 0, hasRender = false;
     let cloneTree = null;
@@ -186,7 +185,7 @@ export default {
         if (before && before.then) {
           before.then(() => {
             doDragEnd(e)
-          })
+          }, () => {})
         } else if (before !== false) {
           doDragEnd(e)
         }
@@ -198,7 +197,7 @@ export default {
     function reset() {
       hasRender = false;
       cloneTree = null;
-      node.moving = false;
+      delete node.moving;
       vnode.context.nodeMoving = false;
       setTimeout(() => {
         vnode.context.stopClick = false
@@ -210,21 +209,22 @@ export default {
         handleEmit("end", true)
         return false;
       }
+      delete node.moving;
       addChildNode(node, vnode.context)
-      handleEmit("end", false)
+      handleEmit("end")
     }
-    function handleEmit(type, isSelf){
-      console.log(vnode.context)
+    function handleEmit(type){
+      const { $listeners, parenNode } = vnode.context;
       if(type === "start") {
-        typeof handleStart === "function" && handleStart(node);
+        $listeners['on-node-drag-start'] && $listeners['on-node-drag-start'](node);
         return
       }
       if(type === "move") {
-        typeof handleMove === "function" && handleMove(node);
+        $listeners['on-node-drag'] && $listeners['on-node-drag'](node);
         return
       }
       if(type === "end") {
-        typeof handleEnd === "function" && handleEnd(node, isSelf);
+        $listeners['on-node-drag-end'] && $listeners['on-node-drag-end'](node, parenNode);
         return
       }
     }
