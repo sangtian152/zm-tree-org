@@ -529,18 +529,18 @@
         }
       },
       toggleExpand(data, val) {
-        const { expand } = this.keys
+        const { expand, children } = this.keys
         if (Array.isArray(data)) {
           data.forEach(item => {
             this.$set(item, expand, val);
-            if (item.children) {
-              this.toggleExpand(item.children, val);
+            if (item[children]) {
+              this.toggleExpand(item[children], val);
             }
           });
         } else {
           this.$set(data, expand, val);
-          if (data.children) {
-            this.toggleExpand(data.children, val);
+          if (data[children]) {
+            this.toggleExpand(data[children], val);
           }
         }
       },

@@ -64,7 +64,7 @@ const addChildNode = function(node, context){
   const { parenNode, onlyOneNode, cloneNodeDrag } = context;
   if( parenNode ){
     const { keys } = context;
-    const { id, pid } = keys;
+    const { id, pid, children } = keys;
     const nodeClone = JSON.parse(JSON.stringify(node));
     if(nodeClone.root) {
       nodeClone.root = undefined;
@@ -73,7 +73,7 @@ const addChildNode = function(node, context){
       // 如果拖拽节点
       removeNode(nodeClone, context)
       nodeClone[pid] = parenNode[id];
-      parenNode.children ? parenNode.children.push(nodeClone) : parenNode.children = [].concat(nodeClone);
+      parenNode[children] ? parenNode[children].push(nodeClone) : parenNode[children] = [].concat(nodeClone);
     } else {
       // 如果拷贝并拖拽节点
       recurseData(nodeClone, keys, function(item){
@@ -82,12 +82,11 @@ const addChildNode = function(node, context){
           item[id] = `clone-node-${item[id]}`
         }
       })
-      const { children } = keys;
       if (onlyOneNode && Array.isArray(nodeClone[children])){
         nodeClone[children] = [];
       }
       nodeClone[keys.pid] = parenNode[keys.id];
-      parenNode.children ? parenNode.children.push(nodeClone) : parenNode.children = [nodeClone];
+      parenNode[children] ? parenNode[children].push(nodeClone) : parenNode[children] = [nodeClone];
     }
   }
 }

@@ -93,14 +93,14 @@ export default {
   },
   methods: {
     //递归遍历实现
-    getNodeById(data, key, value) {
-      if (data[key] === value) {
+    getNodeById(data, props, value) {
+      if (data[props.id] === value) {
         return data;
-      } else if (Array.isArray(data.children)) {
-        let list = data.children;
+      } else if (Array.isArray(data[props.children])) {
+        let list = data[props.children];
         for (let i = 0, len = list.length; i < len; i++) {
           let row = list[i];
-          let pNode = this.getNodeById(row, key, value);
+          let pNode = this.getNodeById(row, props, value);
           if (pNode) {
             return pNode;
           }
@@ -111,7 +111,7 @@ export default {
     handleDelete() {
       const { props, data, node } = this;
       const { id, pid, children } = props;
-      const oldPaNode = this.getNodeById(data, id, node[pid]);
+      const oldPaNode = this.getNodeById(data, props, node[pid]);
       if (this.nodeDelete) {
         this.nodeDelete(node, oldPaNode);
         return;
