@@ -34,6 +34,7 @@
       <zm-tree-org
         ref="tree"
         :data="data"
+        center
         :disabled="disaled"
         :horizontal="horizontal"      
         :collapsable="collapsable"

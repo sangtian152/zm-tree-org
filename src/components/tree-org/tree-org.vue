@@ -3,6 +3,7 @@
     <div
       ref="zoom"
       class="zoom-container"
+      :class="{'is-center': center && !horizontal}"
       :style="zoomStyle"
       @wheel="zoomWheel"
     >
@@ -139,6 +140,7 @@
         type: Object,
         required: true
       },
+      center: Boolean,
       props: {
         type: Object,
         default: () => ({
@@ -309,8 +311,8 @@
         this.dragging = false;
         const zoom = this.$refs.zoom;
         const orgchart = this.$refs["tree-org"];
-        const maxX = zoom.clientWidth / 2;
         const maxY = zoom.clientHeight / 2;
+        let maxX = zoom.clientWidth / 2;
         let minY = zoom.clientHeight - orgchart.clientHeight;
         let minX = zoom.clientWidth - orgchart.clientWidth;
         if (minY > 0) {
@@ -318,6 +320,11 @@
         }
         if (minX > 0) {
           minX = 0;
+        }
+        if (this.center) {
+          const deviation = (zoom.clientWidth - orgchart.clientWidth) / 2
+          minX = minX - deviation
+          maxX = maxX - deviation
         }
         if (x > maxX) {
           this.left = maxX;
@@ -400,9 +407,11 @@
         // 计算偏移量，保持根节点相对页面位置不变
         this.autoDragging = true;
         this.dragging = false;
-        const x = el.offsetLeft - left;
+        if (!this.center || this.horizontal) {
+          const x = el.offsetLeft - left
+          this.left -= x;
+        }
         const y = el.offsetTop - top;
-        this.left -= x;
         this.top -= y;
       },
       handleClick(e, data){
